@@ -6,7 +6,7 @@
   	initwindow(600,600); 
     moveto(0,0);          
     setcolor(15);
- 	int x = 80, y = 80;
+ 	int x = 85, y = 85;
     while (1) 
 	{
     circle(x,y,50);
