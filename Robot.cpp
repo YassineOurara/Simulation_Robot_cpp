@@ -4,7 +4,7 @@
   int main() 
   
   {
-  	initwindow(800,800); 
+  	initwindow(800,800,"Simulation b cpp hh"); 
     moveto(0,0);          
     setcolor(15);
     //Variables
