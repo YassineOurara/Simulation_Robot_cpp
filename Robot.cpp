@@ -6,7 +6,7 @@
   {
   	initwindow(800,800); 
     moveto(0,0);          
-    setcolor(14);
+    setcolor(15);
     //Variables
  	int x = 90, y = 90, r=80;
  	
