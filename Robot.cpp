@@ -3,9 +3,9 @@
   int main() 
   
   {
-  	initwindow(800,800); 
+  	initwindow(800,800,"SIMULATION C++ hhh"); 
     moveto(0,0);          
-    setcolor(14);
+    setcolor(13);
     //Variables
  	int x = 90, y = 90, r=80;
  	
