@@ -68,20 +68,19 @@
             	cleardevice();
                 x += 1;
                 y -= 1;
-                delay(10);
+                
                 
             }
             else if (GetAsyncKeyState(0x53)) {
             	cleardevice();
                 x -= 1;
                 y += 1;
-                delay(10);
+                
                 
             }
             else if (GetAsyncKeyState(VK_SPACE)) {
             	cleardevice();
             	
-                delay(10);
                 
             }
             if (GetAsyncKeyState(VK_RETURN)) {
