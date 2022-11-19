@@ -1,11 +1,12 @@
  #include <graphics.h>
+ #include <cmath>
 
   int main() 
   
   {
-  	initwindow(800,800,"SIMULATION C++ hhh"); 
+  	initwindow(800,800); 
     moveto(0,0);          
-    setcolor(13);
+    setcolor(14);
     //Variables
  	int x = 90, y = 90, r=80;
  	
@@ -49,17 +50,37 @@
                 y += 1;
                 delay(10);
             }
-             else if (GetAsyncKeyState(VK_LBUTTON)) {
+             else if (GetAsyncKeyState(0x44)) {
             	cleardevice();
                 x += 1;
                 y += 1;
                 delay(10);
                 
             }
-             else if (GetAsyncKeyState(VK_RBUTTON)) {
+             else if (GetAsyncKeyState(0x5A)) {
             	cleardevice();
                 x -= 1;
                 y -= 1;
+                delay(10);
+                
+            }
+            else if (GetAsyncKeyState(0x45)) {
+            	cleardevice();
+                x += 1;
+                y -= 1;
+                delay(10);
+                
+            }
+            else if (GetAsyncKeyState(0x53)) {
+            	cleardevice();
+                x -= 1;
+                y += 1;
+                delay(10);
+                
+            }
+            else if (GetAsyncKeyState(VK_SPACE)) {
+            	cleardevice();
+            	
                 delay(10);
                 
             }
