@@ -4,13 +4,12 @@
   int main() 
   
   {
-  	initwindow(800,800,"Simulation b cpp  hh"); 
+  	initwindow(800,800); 
     moveto(0,0);          
     setcolor(15);
     //Variables
  	int x = 90, y = 90, r=80;
  	
-	
     while (1) 
 	{
 			//////////Dessin Robot///////////
@@ -39,12 +38,12 @@
             else if (GetAsyncKeyState(VK_LEFT)) {
             	cleardevice();
                 x -= 1;
-                
+               
                 
             }else if (GetAsyncKeyState(VK_UP)) {
                 cleardevice();
                 y -= 1;
-                
+               
             }else if (GetAsyncKeyState(VK_DOWN)) {
                 cleardevice();
                 y += 1;
