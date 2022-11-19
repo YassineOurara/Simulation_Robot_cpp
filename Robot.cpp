@@ -4,7 +4,7 @@
   int main() 
   
   {
-  	initwindow(800,800,"Simulation b cpp  hh"); 
+  	initwindow(800,800); 
     moveto(0,0);          
     setcolor(15);
     //Variables
@@ -33,35 +33,35 @@
             if (GetAsyncKeyState(VK_RIGHT)) {
             	cleardevice();
                 x += 1;
-                
+                delay(10);
                 
             }
             else if (GetAsyncKeyState(VK_LEFT)) {
             	cleardevice();
                 x -= 1;
-                
+                delay(10);
                 
             }else if (GetAsyncKeyState(VK_UP)) {
                 cleardevice();
                 y -= 1;
-                
+                delay(10);
             }else if (GetAsyncKeyState(VK_DOWN)) {
                 cleardevice();
                 y += 1;
-                
+                delay(10);
             }
              else if (GetAsyncKeyState(0x44)) {
             	cleardevice();
                 x += 1;
                 y += 1;
-                
+                delay(10);
                 
             }
              else if (GetAsyncKeyState(0x5A)) {
             	cleardevice();
                 x -= 1;
                 y -= 1;
-                
+                delay(10);
                 
             }
             else if (GetAsyncKeyState(0x45)) {
