@@ -8,7 +8,7 @@
     moveto(0,0);          
     setcolor(15);
     //Variables
- 	int x = 90, y = 90, r=80;
+ 	int x = 400, y = 700, r=80;
  	
     while (1) 
 	{
@@ -29,17 +29,15 @@
     line(x+r/3, y-r/4, x+r/3,y+r/4);
     line(x+r/4, y-r/4, x+r/3, y-r/4);
     line(x+r/4, y+r/4, x+r/3, y+r/4);
+      
             if (GetAsyncKeyState(VK_RIGHT)) {
             	cleardevice();
                 x += 1;
-                
-                
             }
             else if (GetAsyncKeyState(VK_LEFT)) {
             	cleardevice();
                 x -= 1;
-               
-                
+
             }else if (GetAsyncKeyState(VK_UP)) {
                 cleardevice();
                 y -= 1;
@@ -53,34 +51,28 @@
             	cleardevice();
                 x += 1;
                 y += 1;
-                
-                
+ 
             }
              else if (GetAsyncKeyState(0x5A)) {
             	cleardevice();
                 x -= 1;
                 y -= 1;
-                
-                
+  
             }
             else if (GetAsyncKeyState(0x45)) {
             	cleardevice();
                 x += 1;
                 y -= 1;
-                
-                
+
             }
             else if (GetAsyncKeyState(0x53)) {
             	cleardevice();
                 x -= 1;
                 y += 1;
-                
-                
+
             }
             else if (GetAsyncKeyState(VK_SPACE)) {
             	cleardevice();
-            	
-                
             }
             if (GetAsyncKeyState(VK_RETURN)) {
                 break;
