@@ -74,8 +74,6 @@ void env::afficher(){
     setcolor(WHITE);
     drawpoly(4,tr);
     circle(Xb,Yb,Rr);
-
-
     setcolor(RED);
                for (int i=0;i<nbrObstacle+1;i++){
                 circle(Xobs[i],Yobs[i],Robs[i]);

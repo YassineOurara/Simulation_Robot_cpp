@@ -6,7 +6,7 @@ class env{
 public:
 void afficher();
     float Xobs[50],Dx,Dy,Yobs[50],Robs[50],Xr,Yr,alpha,Dr,Dg,Dd,Rc,Dalpha,wg,wd,R0,Dt,D,Xb,Yb,DistGoal,DistObstacle[50];
-    int Rr,w0Max,Dw0Max,tr[8] = {Xr, Yr-Rr,Xr+Rr, Yr,Xr,Yr+Rr,Xr-Rr,Yr};
+    int Rr,w0Max,Dw0Max, tr[8] = {Xr, Yr-Rr,Xr+Rr, Yr,Xr,Yr+Rr,Xr-Rr,Yr};
 int* rotation(int e[8], int n, int xd,int yd, float tet)
 {
 int i = 0;
