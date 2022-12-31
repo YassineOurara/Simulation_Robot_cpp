@@ -70,16 +70,6 @@ void env::afficher(){
     setcolor(WHITE);
     circle(Xr,Yr,Rr);
     
-	//Roue 1
-	line(Xr-Rr/4, Yr-Rr/4, Xr-Rr/4, Yr+Rr/4);
-    line(Xr-Rr/3, Yr-Rr/4, Xr-Rr/3, Yr+Rr/4);
-    line(Xr-Rr/4, Yr-Rr/4, Xr-Rr/3, Yr-Rr/4);
-    line(Xr-Rr/4, Yr+Rr/4, Xr-Rr/3, Yr+Rr/4);
-    //Roue 2
-    line(Xr+Rr/4, Yr-Rr/4, Xr+Rr/4,Yr+Rr/4);
-    line(Xr+Rr/3, Yr-Rr/4, Xr+Rr/3,Yr+Rr/4);
-    line(Xr+Rr/4, Yr-Rr/4, Xr+Rr/3, Yr-Rr/4);
-    line(Xr+Rr/4, Yr+Rr/4, Xr+Rr/3, Yr+Rr/4);
 //  triangle du robot
     setcolor(WHITE);
     drawpoly(4,tr);
