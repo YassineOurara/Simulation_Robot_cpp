@@ -1,136 +1,161 @@
- #include <graphics.h>
- #include <cmath>
-
-  int main() 
-  
-  {
+#include <graphics.h>
+#include<math.h>
+#include"env.h"
+#include <fstream>
+using namespace std;
+char inf[1000];
+int main() 
+{
   	DWORD w=GetSystemMetrics(SM_CXSCREEN);
     DWORD h=GetSystemMetrics(SM_CYSCREEN);
     h=1100;
     w=1500;
-  	initwindow(w,h,"Mini_Projet Simulation"); 
-    moveto(0,0);          
-    setcolor(15);
-    //Variables
- 	int x = 400, y = 700, r=50;
-	float theta=30;
-	float alpha,beta;
-    while (1) 
-	{
-			//////////Dessin Robot///////////
-	// Cercle
-    circle(x,y,r);
-    // Triangle
-    line(x-r, y, x+r, y);
-    line(x-r, y, x, y-r);
-    line(x+r, y, x,y-r);
-	//Roue 1
-	line(x-r/4, y-r/4, x-r/4, y+r/4);
-    line(x-r/3, y-r/4, x-r/3, y+r/4);
-    line(x-r/4, y-r/4, x-r/3, y-r/4);
-    line(x-r/4, y+r/4, x-r/3, y+r/4);
-    //Roue 2
-    line(x+r/4, y-r/4, x+r/4,y+r/4);
-    line(x+r/3, y-r/4, x+r/3,y+r/4);
-    line(x+r/4, y-r/4, x+r/3, y-r/4);
-    line(x+r/4, y+r/4, x+r/3, y+r/4);
-      
-            if (GetAsyncKeyState(VK_RIGHT)) {
-            	cleardevice();
-                x += 1;
-            }
-            else if (GetAsyncKeyState(VK_LEFT)) {
-            	cleardevice();
-                x -= 1;
-
-            }else if (GetAsyncKeyState(VK_UP)) {
-                cleardevice();
-                y -= 1;
-               
-            }else if (GetAsyncKeyState(VK_DOWN)) {
-                cleardevice();
-                y += 1;
-                
-            }
-             else if (GetAsyncKeyState(0x44)) {
-            	cleardevice();
-                x += 1;
-                y += 1;
- 
-            }
-             else if (GetAsyncKeyState(0x5A)) {
-            	cleardevice();
-                x -= 1;
-                y -= 1;
-  
-            }
-            else if (GetAsyncKeyState(0x45)) {
-            	cleardevice();
-                x += 1;
-                y -= 1;
-
-            }
-            else if (GetAsyncKeyState(0x53)) {
-            	cleardevice();
-                x -= 1;
-                y += 1;
-
-            }
-            else if (GetAsyncKeyState(VK_SPACE)) {
-            	cleardevice();
-            	alpha=theta*3.14f/180;
-            	beta=(theta+90)*3.14f/180;
-            	//////////////////
-//            	x=x*cos(alpha);
-//				y=y*sin(beta);
-//			    line(x-r, y, x*sin(alpha), y-r*cos(alpha));
-//			    line(x+r, y, x*sin(beta),y-r*cos(beta));
-
-				////////////////////
-//				line(x,y,x+r*sin(alpha),y+r*cos(alpha));
-//				line(x,y,x+r*sin(beta),y+r*cos(beta));
-//				line(x,y,x-r*sin(alpha),y-r*cos(alpha));
-//				line(x,y,x-r*sin(beta),y-r*cos(beta));
-				theta-=8;
-				delay(50);
-            }
-            if (GetAsyncKeyState(VK_RETURN)) {
-                break;
-                delay(10);
-            }
+    initwindow(w,h,"Mini_Projet Simulation cpp");
+    env robot;
+    while(true){
+    cleardevice();
+    robot.afficher();
+    delay(30);
     }
-	closegraph(); 
+    getch();
+    closegraph();
+    return 0;
+}
 	
-	
-	int nbrObstacle=0;
-	dessin::dessin(){
-//Données
+int nbrObstacle=0;
+env::env(){
+
+						//Initialisation des données//
 // rayon robot
     Rr=50;
 // rayon roue
     R0=0.020;
-//intervall de temps entre chaque mise a jour de la position et de l'orientation du robot:
+//intervalle de temps entre chaque mise à jour de la position et de l'orientation du robot:
     Dt=0.1;
 // distance entre les roues
     D=0.05;
 // vitesse angulaire max des roues
     w0Max=10;
-// Acceleration maximun des roues
+// Acceleration max des roues
     Dw0Max=2;
     alpha=1;
+//  Vitesse de la roue gauche(wg) resp. droite(wd)
     wg=0;
     wd=0;
-// position de robot
+//  position de robot
     Xr=60;
     Yr=60;
-//position de but
-    Xc=1300;
-    Yc=900;
-// position des obstacles
+//  position de but
+    Xb=1300;
+    Yb=900;
+						//les Obstacles//
+						
 	ifstream file ("obstacles.obs");
+//  position des obstacles et rayons
     int x_obs;
     int y_obs;
     int r_obs;
-             
-    return 0; 
+//  boucle pour stocker les positions et incrémenter le nbr des obstacles 
+    while(file >> x_obs >> y_obs >> r_obs ){
+            Xobs[nbrObstacle]=x_obs;
+            Yobs[nbrObstacle]=y_obs;
+            Robs[nbrObstacle]=r_obs;
+        nbrObstacle++;
+	}             
   }
+  
+  void env::afficher(){
+
+//cercle du robot
+    setcolor(YELLOW);
+    circle(Xr,Yr,Rr);
+
+//triangle du robot
+    setcolor(GREEN);
+
+    drawpoly(4,tr);
+    circle(Xb,Yb,Rr);
+
+
+    setcolor(RED);
+               for (int i=0;i<nbrObstacle+1;i++){
+                circle(Xobs[i],Yobs[i],Robs[i]);
+             }
+    setcolor(GREEN);
+
+    sprintf(inf,"WG = %.2f   WD = %.2f ",wg*10,wd*10);
+    outtextxy(100,900,inf);
+
+    setcolor(GREEN);
+     //commande
+       if(GetAsyncKeyState(VK_LEFT) ){
+            wd=wd+0.025;delay(200);
+            }
+
+            if(GetAsyncKeyState(VK_DOWN&& wd<w0Max/10 && wg<w0Max/10))
+                {
+                    wg=wg-0.05;delay(100);
+                    wd=wd-0.05;delay(100);
+                    }
+            if(GetAsyncKeyState(VK_RIGHT)){
+              wg=wg+0.025;delay(200);
+
+
+                 }
+            if(GetAsyncKeyState(VK_UP) && wd<w0Max/10 && wg<w0Max/10 )
+                {
+                    wg=wg+0.05;delay(100);
+                    wd=wd+0.05;delay(100);
+                }
+                if(GetAsyncKeyState(VK_DOWN) && wd<w0Max/10 && wg<w0Max/10 )
+
+                {
+                    wg=wg-0.05;delay(100);
+                    wd=wd-0.05;delay(100);
+                }
+    //mise a jour des donnees
+            Dd=wd*Dt*R0;
+            Dg=wg*Dt*R0;
+            if(Dg!=Dd)
+            Rc=D*(Dg+Dd)/(2*(Dg-Dd));
+            Dalpha=(Dg-Dd)/D;
+            Dr = (Dg + Dd)/2;
+            DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
+if (DistGoal<60){
+
+    wg=0;delay(100);
+    wd=0;delay(100);
+    Xb=((rand() % 90) + 50);
+    Yb=((rand() % 600) + 50);
+
+}
+//  mouvement du robot
+    alpha=alpha+Dalpha;
+    Xr=Xr+Dr*cos(alpha)*2000;
+    Yr=Yr+Dr*sin(alpha)*2000;
+//  mise à jour des position en fonction de xr et yr
+    int *dx;
+    tr[0]=Xr ;
+    tr[1]=Yr-Rr;
+    tr[2]=Xr+Rr ;
+    tr[3]=Yr;
+    tr[4]=Xr ;
+    tr[5]=Yr+Rr;
+    tr[6]=Xr ;
+    tr[7]=Yr-Rr;
+
+    dx=rotation(tr,8,Xr,Yr,alpha);
+    for (int i=0;i<8;i++)
+    tr[i]=*(dx+i);
+    for (int i=0;i<nbrObstacle;i++){
+            // Distance  entre centre du robot et d'obstacle doit etre inferieur a la somme des rayons de robot et l'obstacle
+            DistObstacle[i]=sqrt((Xr-Xobs[i])*(Xr-Xobs[i])+(Yr-Yobs[i])*(Yr-Yobs[i]));
+            if(DistObstacle[i] <=Rr+Robs[i]){
+                wg =0;
+                wd=0;
+
+            }
+	}
+return;
+
+}
