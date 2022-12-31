@@ -57,9 +57,9 @@ env::env(){
     int r_obs;
 //  boucle pour stocker les positions et incrémenter le nbr des obstacles 
     while(file >> x_obs >> y_obs >> r_obs ){
-            Xobs[nbrObstacle]=x_obs;
-            Yobs[nbrObstacle]=y_obs;
-            Robs[nbrObstacle]=r_obs;
+        Xobs[nbrObstacle]=x_obs;
+        Yobs[nbrObstacle]=y_obs;
+        Robs[nbrObstacle]=r_obs;
         nbrObstacle++;
 	}             
   }
@@ -75,15 +75,15 @@ void env::afficher(){
     drawpoly(4,tr);
     circle(Xb,Yb,Rr);
     setcolor(RED);
-               for (int i=0;i<nbrObstacle+1;i++){
-                circle(Xobs[i],Yobs[i],Robs[i]);
-             }
+    for (int i=0;i<nbrObstacle+1;i++){
+        circle(Xobs[i],Yobs[i],Robs[i]);
+    }
     setcolor(GREEN);
 
     sprintf(inf,"WG = %.2f   WD = %.2f ",wg*10,wd*10);
     outtextxy(100,900,inf);
-
     setcolor(GREEN);
+    
 //		    Les commandes afin d'annimer le robot 		    //
 
        		if(GetAsyncKeyState(VK_LEFT) ){
@@ -101,12 +101,16 @@ void env::afficher(){
 			  	delay(200);
             }
             if(GetAsyncKeyState(VK_UP) && wd<w0Max/10 && wg<w0Max/10 ){
-                wg=wg+0.05;delay(100);
-                wd=wd+0.05;delay(100);
+                wg=wg+0.05;
+				delay(100);
+                wd=wd+0.05;
+				delay(100);
             }
             if(GetAsyncKeyState(VK_DOWN) && wd<w0Max/10 && wg<w0Max/10 ){
-                wg=wg-0.05;delay(100);
-                wd=wd-0.05;delay(100);
+                wg=wg-0.05;
+				delay(100);
+                wd=wd-0.05;
+				delay(100);
             }
 //      	mise a jour des donnees
             Dd=wd*Dt*R0;
@@ -117,8 +121,10 @@ void env::afficher(){
             Dr = (Dg + Dd)/2;
             DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
 if (DistGoal<60){
-    wg=0;delay(100);
-    wd=0;delay(100);
+    wg=0;
+	delay(100);
+    wd=0;
+	delay(100);
     Xb=((rand() % 90) + 50);
     Yb=((rand() % 600) + 50);
 
@@ -145,7 +151,7 @@ if (DistGoal<60){
             // Distance  entre centre du robot et d'obstacle doit etre inferieur a la somme des rayons de robot et l'obstacle
             DistObstacle[i]=sqrt((Xr-Xobs[i])*(Xr-Xobs[i])+(Yr-Yobs[i])*(Yr-Yobs[i]));
             if(DistObstacle[i] <=Rr+Robs[i]){
-                wg =0;
+                wg=0;
                 wd=0;
 
             }
