@@ -64,15 +64,24 @@ env::env(){
 	}             
   }
   
-  void env::afficher(){
+void env::afficher(){
 
-//cercle du robot
-    setcolor(YELLOW);
+//  cercle du robot
+    setcolor(WHITE);
     circle(Xr,Yr,Rr);
-
-//triangle du robot
-    setcolor(GREEN);
-
+    
+	//Roue 1
+	line(Xr-Rr/4, Yr-Rr/4, Xr-Rr/4, Yr+Rr/4);
+    line(Xr-Rr/3, Yr-Rr/4, Xr-Rr/3, Yr+Rr/4);
+    line(Xr-Rr/4, Yr-Rr/4, Xr-Rr/3, Yr-Rr/4);
+    line(Xr-Rr/4, Yr+Rr/4, Xr-Rr/3, Yr+Rr/4);
+    //Roue 2
+    line(Xr+Rr/4, Yr-Rr/4, Xr+Rr/4,Yr+Rr/4);
+    line(Xr+Rr/3, Yr-Rr/4, Xr+Rr/3,Yr+Rr/4);
+    line(Xr+Rr/4, Yr-Rr/4, Xr+Rr/3, Yr-Rr/4);
+    line(Xr+Rr/4, Yr+Rr/4, Xr+Rr/3, Yr+Rr/4);
+//  triangle du robot
+    setcolor(WHITE);
     drawpoly(4,tr);
     circle(Xb,Yb,Rr);
 
@@ -87,33 +96,31 @@ env::env(){
     outtextxy(100,900,inf);
 
     setcolor(GREEN);
-     //commande
-       if(GetAsyncKeyState(VK_LEFT) ){
-            wd=wd+0.025;delay(200);
+//		    Les commandes afin d'annimer le robot 		    //
+
+       		if(GetAsyncKeyState(VK_LEFT) ){
+            	wd=wd+0.025;
+				delay(200);
             }
-
-            if(GetAsyncKeyState(VK_DOWN&& wd<w0Max/10 && wg<w0Max/10))
-                {
-                    wg=wg-0.05;delay(100);
-                    wd=wd-0.05;delay(100);
-                    }
+            if(GetAsyncKeyState(VK_DOWN&& wd<w0Max/10 && wg<w0Max/10)){
+                wg=wg-0.05;
+				delay(100);
+                wd=wd-0.05;
+				delay(100);
+            }
             if(GetAsyncKeyState(VK_RIGHT)){
-              wg=wg+0.025;delay(200);
-
-
-                 }
-            if(GetAsyncKeyState(VK_UP) && wd<w0Max/10 && wg<w0Max/10 )
-                {
-                    wg=wg+0.05;delay(100);
-                    wd=wd+0.05;delay(100);
-                }
-                if(GetAsyncKeyState(VK_DOWN) && wd<w0Max/10 && wg<w0Max/10 )
-
-                {
-                    wg=wg-0.05;delay(100);
-                    wd=wd-0.05;delay(100);
-                }
-    //mise a jour des donnees
+              	wg=wg+0.025;
+			  	delay(200);
+            }
+            if(GetAsyncKeyState(VK_UP) && wd<w0Max/10 && wg<w0Max/10 ){
+                wg=wg+0.05;delay(100);
+                wd=wd+0.05;delay(100);
+            }
+            if(GetAsyncKeyState(VK_DOWN) && wd<w0Max/10 && wg<w0Max/10 ){
+                wg=wg-0.05;delay(100);
+                wd=wd-0.05;delay(100);
+            }
+//      	mise a jour des donnees
             Dd=wd*Dt*R0;
             Dg=wg*Dt*R0;
             if(Dg!=Dd)
@@ -122,7 +129,6 @@ env::env(){
             Dr = (Dg + Dd)/2;
             DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
 if (DistGoal<60){
-
     wg=0;delay(100);
     wd=0;delay(100);
     Xb=((rand() % 90) + 50);
