@@ -55,7 +55,7 @@ env::env(){
     int x_obs;
     int y_obs;
     int r_obs;
-//  boucle pour stocker les positions et incrémenter le nbr des obstacles 
+//  les positions et le rayons d'obstacles dans le fichier obstacles.obs 
     while(file >> x_obs >> y_obs >> r_obs ){
         Xobs[nbrObstacle]=x_obs;
         Yobs[nbrObstacle]=y_obs;
@@ -112,7 +112,7 @@ void env::afficher(){
                 wd=wd-0.05;
 				delay(100);
             }
-//      	mise a jour des donnees
+//      	mise a jour des données
             Dd=wd*Dt*R0;
             Dg=wg*Dt*R0;
             if(Dg!=Dd)
@@ -137,10 +137,13 @@ if (DistGoal<60){
     int *dx;
     tr[0]=Xr ;
     tr[1]=Yr-Rr;
+    
     tr[2]=Xr+Rr ;
     tr[3]=Yr;
+    
     tr[4]=Xr ;
     tr[5]=Yr+Rr;
+    
     tr[6]=Xr ;
     tr[7]=Yr-Rr;
 
