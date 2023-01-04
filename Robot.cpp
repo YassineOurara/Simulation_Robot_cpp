@@ -14,17 +14,20 @@ int main()
     w=1500;
     initwindow(w,h,"Mini_Projet Simulation cpp");
     env robot;
+    string const file1("position.pts");
+	ofstream monFlux(file1.c_str());
     while(true){
     cleardevice();
     robot.afficher();
     delay(30);
+    
     }
     getch();
     closegraph();
     return 0;
 }
-env::env(){
 
+env::env(){
 						//Initialisation des données//
 // rayon robot
     Rr=50;
@@ -46,8 +49,9 @@ env::env(){
     Xr=60;
     Yr=60;
 //  position de but
-    Xb=1300;
-    Yb=900;
+    Xb=580;
+    Yb=700;
+
 						//les Obstacles//
 						
 	ifstream file ("obstacles.obs");
@@ -62,7 +66,8 @@ env::env(){
         Robs[nbrObstacle]=r_obs;
         nbrObstacle++;
 	}
-  }
+	
+}
 
   
 void env::afficher(){
@@ -74,21 +79,22 @@ void env::afficher(){
 //  triangle du robot
     setcolor(WHITE);
     drawpoly(4,tr);
-    
+//  cercle du but
     setcolor(GREEN);
     circle(Xb,Yb,Rr);
     
-    
-  
     for (int i=0;i<nbrObstacle+1;i++){
     	setcolor(RED);
         circle(Xobs[i],Yobs[i],Robs[i]);
     }
     
-//
-//    sprintf(inf,"WG = %.2f   WD = %.2f ",wg*10,wd*10);
-//    outtextxy(100,900,inf);
-//    setcolor(GREEN);
+	setcolor(WHITE);
+    sprintf(inf,"WG= %.2f   WD= %.2f  ",wg*10,wd*10);
+    outtextxy(1300,20,inf);
+    sprintf(inf,"Xr= %d ",Xr);
+    outtextxy(1300,40,inf);
+    sprintf(inf,"Yr= %d ",Yr);
+    outtextxy(1300,60,inf);
     
 //		    Les commandes afin d'annimer le robot 		    //
 
@@ -96,7 +102,7 @@ void env::afficher(){
             	wd=wd+0.025;
 				delay(200);
             }
-            if(GetAsyncKeyState(VK_DOWN&& wd<w0Max/10 && wg<w0Max/10)){
+            if(GetAsyncKeyState(VK_DOWN && wd<w0Max/10 && wg<w0Max/10)){
                 wg=wg-0.05;
 				delay(100);
                 wd=wd-0.05;
@@ -118,12 +124,18 @@ void env::afficher(){
                 wd=wd-0.05;
 				delay(100);
             }
+            if(GetAsyncKeyState(VK_SPACE)){
+                wg=0;
+				delay(100);
+                wd=0;
+				delay(100);
+            }
     
 //      	mise a jour des données
             Dd=wd*Dt*R0;
             Dg=wg*Dt*R0;
             if(Dg!=Dd)
-            Rc=D*(Dg+Dd)/(2*(Dg-Dd));
+            Rc=D*(Dg+Dd)/(2*(Dg-Dd)); //dr/dalpha
             Dalpha=(Dg-Dd)/D;
             Dr = (Dg + Dd)/2;
             DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
@@ -132,6 +144,7 @@ if (DistGoal<60){
 	delay(100);
     wd=0;
 	delay(100);
+//	Crée des buts aléatoirement
     Xb=((rand() % 90) + 50);
     Yb=((rand() % 600) + 50);
 
@@ -160,7 +173,7 @@ if (DistGoal<60){
     for (int i=0;i<8;i++)
     tr[i]=*(dx+i);
     
-
+//  Collisions
     for (int i=0;i<nbrObstacle;i++){
             // Distance  entre centre du robot et d'obstacle doit etre inferieur a la somme des rayons de robot et l'obstacle
             DistObstacle[i]=sqrt((Xr-Xobs[i])*(Xr-Xobs[i])+(Yr-Yobs[i])*(Yr-Yobs[i]));
@@ -170,11 +183,10 @@ if (DistGoal<60){
 
             }
 	}
-	string const file1("position.pts");
-	ofstream monFlux(file1.c_str());
 
-	monFlux << " << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd << " rad/s >> << Vitesse angulaire Roue Gauche : " << wg <<" rad/s >> ";
 	
+	
+
 return;
 
 }

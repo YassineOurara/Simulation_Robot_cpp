@@ -22,7 +22,3 @@
 << T :2.1 s >> << X : 426 px >> << Y : 521 px >> << Vitesse angulaire Roue Droite : 1 rad/s >> << Vitesse angulaire Roue Gauche : 1 rad/s >> << Distance : 0.02604 m >>
 << T :2.2 s >> << X : 432 px >> << Y : 522 px >> << Vitesse angulaire Roue Droite : 1 rad/s >> << Vitesse angulaire Roue Gauche : 1 rad/s >> << Distance : 0.02728 m >>
 << T :2.3 s >> << X : 438 px >> << Y : 523 px >> << Vitesse angulaire Roue Droite : 1 rad/s >> << Vitesse angulaire Roue Gauche : 1 rad/s >> << Distance : 0.02852 m >>
-<< T :2.4 s >> << X : 444 px >> << Y : 524 px >> << Vitesse angulaire Roue Droite : 1 rad/s >> << Vitesse angulaire Roue Gauche : 1 rad/s >> << Distance : 0.02976 m >>
-<< T :2.5 s >> << X : 450 px >> << Y : 525 px >> << Vitesse angulaire Roue Droite : 1 rad/s >> << Vitesse angulaire Roue Gauche : 1 rad/s >> << Distance : 0.031 m >>
-<< T :2.6 s >> << X : 456 px >> << Y : 526 px >> << Vitesse angulaire Roue Droite : 1 rad/s >> << Vitesse angulaire Roue Gauche : 1 rad/s >> << Distance : 0.03224 m >>
-<< T :2.7 s >> << X : 462 px >> << Y : 527 px >> << Vitesse angulaire Roue Droite : 1 rad/s >> << Vitesse angulaire Roue Gauche : 1 rad/s >> << Distance : 0.03348 m >>

@@ -107,7 +107,7 @@ int main(){
 	int width = 1500;
 	initwindow(width,height,"",-3,-3);
 	// Manipulation des deux fichiers
-//	string const nomFichier("position.pts");
+	string const nomFichier("trajectoire.txt");
     ofstream monFlux(nomFichier.c_str());
     fstream fichier("obstacle.txt");  //On ouvre le fichier
 	float wd=0,wg=0,teD=0,teG=0,teAll=0,Dist=0,teT=0,M1=0,M2=0;
