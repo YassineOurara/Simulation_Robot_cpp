@@ -14,8 +14,6 @@ int main()
     w=1500;
     initwindow(w,h,"Mini_Projet Simulation cpp");
     env robot;
-    string const file1("position.pts");
-	ofstream monFlux(file1.c_str());
     while(true){
     cleardevice();
     robot.afficher();
@@ -49,8 +47,10 @@ env::env(){
     Xr=60;
     Yr=60;
 //  position de but
-    Xb=580;
-    Yb=700;
+    Xb=400;
+    Yb=300;
+    n=0;
+
 
 						//les Obstacles//
 						
@@ -79,15 +79,18 @@ void env::afficher(){
 //  triangle du robot
     setcolor(WHITE);
     drawpoly(4,tr);
+
 //  cercle du but
     setcolor(GREEN);
     circle(Xb,Yb,Rr);
     
+//  cercle des obstacles 
+    setcolor(RED);
     for (int i=0;i<nbrObstacle+1;i++){
-    	setcolor(RED);
         circle(Xobs[i],Yobs[i],Robs[i]);
     }
     
+//  Affichage dans l'écran des coordonnées du robot et vitesse de ces deux roues
 	setcolor(WHITE);
     sprintf(inf,"WG= %.2f   WD= %.2f  ",wg*10,wd*10);
     outtextxy(1300,20,inf);
@@ -96,7 +99,8 @@ void env::afficher(){
     sprintf(inf,"Yr= %d ",Yr);
     outtextxy(1300,60,inf);
     
-//		    Les commandes afin d'annimer le robot 		    //
+//		----------------------Les commandes afin d'annimer le robot----------------------//
+//      =====================================2 roues===================================
 
        		if(GetAsyncKeyState(VK_LEFT) ){
             	wd=wd+0.025;
@@ -130,7 +134,40 @@ void env::afficher(){
                 wd=0;
 				delay(100);
             }
-    
+//      =====================================2 roues===================================            
+//          	if(GetAsyncKeyState(VK_LEFT) ){
+//            	wd=wd+0.025;
+//				delay(200);
+//            }
+//            if(GetAsyncKeyState(VK_RIGHT)){
+//              	wg=wg+0.025;
+//			  	delay(200);
+//            }
+//            if(GetAsyncKeyState(VK_UP) && wd<w0Max/10 && wg<w0Max/10 ){
+//                wg=wg+0.05;
+//				delay(100);
+//
+//            }
+//            if(GetAsyncKeyState(0x5A) && wd<w0Max/10 && wg<w0Max/10 ){
+//                wd=wd+0.05;
+//				delay(100);
+//            }
+//            if(GetAsyncKeyState(VK_DOWN) && wd<w0Max/10 && wg<w0Max/10 ){
+//                wg=wg-0.05;
+//				delay(100);
+//            }
+//            if(GetAsyncKeyState(0x53) && wd<w0Max/10 && wg<w0Max/10 ){
+//                wd=wd-0.05;
+//				delay(100);
+//            }
+//            if(GetAsyncKeyState(VK_SPACE)){
+//                wg=0;
+//				delay(100);
+//                wd=0;
+//				delay(100);
+//            }
+//==============================================================================================
+
 //      	mise a jour des données
             Dd=wd*Dt*R0;
             Dg=wg*Dt*R0;
@@ -139,33 +176,31 @@ void env::afficher(){
             Dalpha=(Dg-Dd)/D;
             Dr = (Dg + Dd)/2;
             DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
+
 if (DistGoal<60){
-    wg=0;
-	delay(100);
-    wd=0;
-	delay(100);
+//    wg=0;
+//	delay(100);
+//    wd=0;
+//	delay(100);
 //	Crée des buts aléatoirement
     Xb=((rand() % 90) + 50);
     Yb=((rand() % 600) + 50);
-
 }
+
 //  mouvement du robot
     alpha=alpha+Dalpha;
     Xr=Xr+Dr*cos(alpha)*2000;
     Yr=Yr+Dr*sin(alpha)*2000;
-//  mise à jour des position en fonction de xr et yr
-
+    
+//  ----------------------mise à jour des position en fonction de xr et yr----------------------
     int *dx;
 //  tr tableau pour tracer le triangle
     tr[0]=Xr ;
     tr[1]=Yr-Rr;
-    
     tr[2]=Xr+Rr ;
     tr[3]=Yr;
-    
     tr[4]=Xr ;
     tr[5]=Yr+Rr;
-    
     tr[6]=Xr ;
     tr[7]=Yr-Rr;
 //	orienter le triangle 
@@ -183,6 +218,16 @@ if (DistGoal<60){
 
             }
 	}
+	string const file1("position.pts");
+	ofstream monFlux(file1.c_str());
+
+	n++;
+	for(int i=0;i<n;i++)
+	monFlux << "<< T :" << Dt << " s >> << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd << " rad/s "<< endl;
+	delay(100);
+
+				
+
 
 	
 	

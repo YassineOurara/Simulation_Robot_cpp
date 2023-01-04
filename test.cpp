@@ -114,7 +114,7 @@ int main(){
 	
 	int Mr=0,Ml=0,cpt=0,cptbb=0;
 	//	Coordonees du But
-	int x1=1000,y1=600,r1=20;
+	int x1=60,y1=60,r1=20;
 	float Angle=0;
 	while(1){
 // ---------------------------------------------- Get Obstacle from Fichier ----------------------------------
