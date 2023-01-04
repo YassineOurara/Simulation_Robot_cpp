@@ -3,7 +3,9 @@
 #include"env.h"
 #include <fstream>
 using namespace std;
-char inf[1000];
+char inf[1000];	
+int nbrObstacle=0;
+
 int main() 
 {
   	DWORD w=GetSystemMetrics(SM_CXSCREEN);
@@ -21,8 +23,6 @@ int main()
     closegraph();
     return 0;
 }
-	
-int nbrObstacle=0;
 env::env(){
 
 						//Initialisation des données//
@@ -61,8 +61,9 @@ env::env(){
         Yobs[nbrObstacle]=y_obs;
         Robs[nbrObstacle]=r_obs;
         nbrObstacle++;
-	}             
+	}
   }
+
   
 void env::afficher(){
 
@@ -73,16 +74,21 @@ void env::afficher(){
 //  triangle du robot
     setcolor(WHITE);
     drawpoly(4,tr);
+    
+    setcolor(GREEN);
     circle(Xb,Yb,Rr);
-    setcolor(RED);
+    
+    
+  
     for (int i=0;i<nbrObstacle+1;i++){
+    	setcolor(RED);
         circle(Xobs[i],Yobs[i],Robs[i]);
     }
-    setcolor(GREEN);
-
-    sprintf(inf,"WG = %.2f   WD = %.2f ",wg*10,wd*10);
-    outtextxy(100,900,inf);
-    setcolor(GREEN);
+    
+//
+//    sprintf(inf,"WG = %.2f   WD = %.2f ",wg*10,wd*10);
+//    outtextxy(100,900,inf);
+//    setcolor(GREEN);
     
 //		    Les commandes afin d'annimer le robot 		    //
 
@@ -112,6 +118,7 @@ void env::afficher(){
                 wd=wd-0.05;
 				delay(100);
             }
+    
 //      	mise a jour des données
             Dd=wd*Dt*R0;
             Dg=wg*Dt*R0;
@@ -134,7 +141,9 @@ if (DistGoal<60){
     Xr=Xr+Dr*cos(alpha)*2000;
     Yr=Yr+Dr*sin(alpha)*2000;
 //  mise à jour des position en fonction de xr et yr
+
     int *dx;
+//  tr tableau pour tracer le triangle
     tr[0]=Xr ;
     tr[1]=Yr-Rr;
     
@@ -146,10 +155,12 @@ if (DistGoal<60){
     
     tr[6]=Xr ;
     tr[7]=Yr-Rr;
-
+//	orienter le triangle 
     dx=rotation(tr,8,Xr,Yr,alpha);
     for (int i=0;i<8;i++)
     tr[i]=*(dx+i);
+    
+
     for (int i=0;i<nbrObstacle;i++){
             // Distance  entre centre du robot et d'obstacle doit etre inferieur a la somme des rayons de robot et l'obstacle
             DistObstacle[i]=sqrt((Xr-Xobs[i])*(Xr-Xobs[i])+(Yr-Yobs[i])*(Yr-Yobs[i]));
@@ -159,6 +170,11 @@ if (DistGoal<60){
 
             }
 	}
+	string const file1("position.pts");
+	ofstream monFlux(file1.c_str());
+
+	monFlux << " << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd << " rad/s >> << Vitesse angulaire Roue Gauche : " << wg <<" rad/s >> ";
+	
 return;
 
 }

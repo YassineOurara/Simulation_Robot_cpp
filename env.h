@@ -27,10 +27,8 @@ int i = 0;
         e[i]=rint(x);
         e[i+1]=rint(y);
         i=i+2;
-           }
+    }
     return e;
-
-
 }
     env();
 
