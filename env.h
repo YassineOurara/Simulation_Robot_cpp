@@ -57,6 +57,10 @@ int i = 0;
         wd=0;
 		delay(100);
 	}
+	
+	float rotbut(int Xbut,int Ybut){
+		return atan(Xbut-Xr/Ybut-Yr);
+	}
 env();
 
 };

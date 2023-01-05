@@ -2,6 +2,7 @@
 #include<math.h>
 #include"env.h"
 #include <fstream>
+#include <iostream>
 using namespace std;
 char inf[1000];	
 int nbrObstacle=0;
@@ -185,6 +186,9 @@ if (DistGoal<60){
     alpha=alpha+Dalpha;
     Xr=Xr+Dr*cos(alpha)*2000;
     Yr=Yr+Dr*sin(alpha)*2000;
+    int ang=0;
+    ang=rotbut(Xb,Yb);
+    cout << ang;
     
 //  ----------------------mise à jour des position en fonction de xr et yr----------------------
     int *dx;
