@@ -3,6 +3,7 @@
 #include"env.h"
 #include <fstream>
 #include <iostream>
+#include <cmath>
 using namespace std;
 char inf[1000];	
 int nbrObstacle=0;
@@ -42,13 +43,13 @@ env::env(){
     Dw0Max=2;
     alpha=1;
 //  Vitesse de la roue gauche(wg) resp. droite(wd)
-    wg=1;
-    wd=1;
+    wg=0;
+    wd=0;
 //  position de robot
     Xr=60;
     Yr=60;
 //  position et rayon de but
-    Xb=400;
+    Xb=100;
     Yb=300;
     Rb=30;
     n=0;
@@ -72,6 +73,26 @@ env::env(){
 	
 }
 
+double angle(double Xr, double Yr, double Xb, double Yb){
+    // Calculate the dot product of the vectors
+    double dot = Xr*Xb+Yr*Yb;
+
+    // Calculate the magnitudes of the vectors
+    double magu = sqrt(Xr*Xr+Yr*Yr);
+    double magv = sqrt(Xb*Xb+Yb*Yb);
+
+    // Calculate the cosine of the angle between the vectors using the dot product
+    double cosTheta = dot / (magu * magv);
+
+    // Calculate the angle using the arc cosine function
+    double theta = acos(cosTheta);
+
+    // Use the atan2 function to determine the sign of the angle
+    if (Xr * Yb - Yr * Xb < 0)
+        theta = -theta;
+
+    return theta;
+}
   
 void env::afficher(){
 
@@ -162,14 +183,26 @@ void env::afficher(){
 //==============================================================================================
 
 //      	mise a jour des données
-            Dd=wd*Dt*R0;
-            Dg=wg*Dt*R0;
-            if(Dg!=Dd)
-            Rc=D*(Dg+Dd)/(2*(Dg-Dd)); //dr/dalpha
-            Dalpha=(Dg-Dd)/D;
-            Dr = (Dg + Dd)/2;
-            DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
-
+    Dd=wd*Dt*R0;
+    Dg=wg*Dt*R0;
+    if(Dg!=Dd)
+        Rc=D*(Dg+Dd)/(2*(Dg-Dd)); //dr/dalpha
+    Dalpha=(Dg-Dd)/D;
+    Dr = (Dg + Dd)/2;
+    DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
+//			  mouvement du robot
+    alpha=alpha+Dalpha;
+    Xr=Xr+Dr*cos(alpha)*2000;
+    Yr=Yr+Dr*sin(alpha)*2000;	
+	int ang=0;
+	static int cpt=0;
+	static int t[1];
+	double dot = 0;
+	double magu = 0;
+	double magv = 0;
+	double cosTheta = 0;
+	double theta = 0;
+	
 if (DistGoal<60){
 //    wg=0;
 //	delay(100);
@@ -179,18 +212,38 @@ if (DistGoal<60){
     Xb=((rand() % 90) + 50); //this code generates a random number between 0 and 89
     Yb=((rand() % 600) + 50); //this code generates a random number between 0 and 599
     score++;
+    moveStop();
+    dot = Xr * Xb + Yr * Yb;
+    magu = sqrt(Xr * Xr + Yr * Yr);
+    magv = sqrt(Xb * Xb + Yb * Yb);
+    cosTheta = dot / (magu * magv);
+    theta = acos(cosTheta);
+    if (Xr * Yb - Yr * Xb < 0)
+        theta = -theta;
+    std::cout << "CLOSE" << theta<< " "<< std::endl;
+    std::cout << "CLOSE" << Xr << " " << Yr << " "<< Xb << " " << Yb << " "<< std::endl;
     
-}
-
-//  mouvement du robot
-    alpha=alpha+Dalpha;
-    Xr=Xr+Dr*cos(alpha)*2000;
-    Yr=Yr+Dr*sin(alpha)*2000;
-    int ang=0;
-    ang=rotbut(Xb,Yb);
-    cout << ang;
+    cpt=0;
+}else{
+    moveStop();
+    dot = Xr * Xb + Yr * Yb;
+    magu = sqrt(Xr * Xr + Yr * Yr);
+    magv = sqrt(Xb * Xb + Yb * Yb);
+    cosTheta = dot / (magu * magv);
+    theta = acos(cosTheta);
+    if (Xr * Yb - Yr * Xb < 0)
+        theta = -theta;
+    //std::cout << theta<< " "<< std::endl;
+    std::cout << Xr << " " << Yr << " "<< Xb << " " << Yb << " "<< std::endl;
     
-//  ----------------------mise à jour des position en fonction de xr et yr----------------------
+    if(cpt==0){
+    	t[0]=theta;
+    	cpt++;
+    	std::cout << theta<< " "<< std::endl;
+	}
+    
+    Xr=Xr+Dr*cos(t[0])*2000;
+    Yr=Yr+Dr*sin(t[0])*2000;
     int *dx;
 //  tr tableau pour tracer le triangle
     tr[0]=Xr ;
@@ -201,10 +254,14 @@ if (DistGoal<60){
     tr[5]=Yr+Rr;
     tr[6]=Xr ;
     tr[7]=Yr-Rr;
+    
 //	orienter le triangle 
-    dx=rotation(tr,8,Xr,Yr,alpha);
+    dx=rotation(tr,8,Xr,Yr,t[0]);
     for (int i=0;i<8;i++)
     tr[i]=*(dx+i);
+    moveForward();
+}    
+
     
 //  Collisions
     for (int i=0;i<nbrObstacle;i++){
@@ -229,4 +286,5 @@ return;
 
 
 }
+
 
