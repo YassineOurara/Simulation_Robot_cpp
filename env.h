@@ -61,6 +61,15 @@ int i = 0;
 	float rotbut(int Xbut,int Ybut){
 		return atan(Xbut-Xr/Ybut-Yr);
 	}
+	void versbut(int Xr,int Yr,int Xb,int Yb){
+		float distance = sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
+		int d = Yr - Yb;
+		float alpha1 = acos(d/distance) ;
+		int alpha = (alpha1*180)/3.14;
+		int f = alpha ;
+		//  Orienter le Robot vers le but
+		
+	}
 env();
 
 };

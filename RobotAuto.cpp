@@ -52,11 +52,7 @@ env::env(){
     Yb=300;
     Rb=30;
     n=0;
-
-
-
-						//les Obstacles//
-						
+//  les Obstacles//
 	ifstream file ("obstacles.obs");
 //  position des obstacles et rayons
     int x_obs;
@@ -88,22 +84,27 @@ void env::afficher(){
     circle(Xb,Yb,Rb);
     
 //  cercle des obstacles 
-
     for (int i=0;i<nbrObstacle+1;i++){
+    	if(i%2==0){
     		setcolor(YELLOW);
     		circle(Xobs[i],Yobs[i],Robs[i]);
+		}else{
+			setcolor(CYAN);
+    		circle(Xobs[i],Yobs[i],Robs[i]);
+		}
+    	
     }
     
 //  Affichage dans l'écran des coordonnées du robot et vitesse de ces deux roues
 	setcolor(WHITE);
     sprintf(inf,"WG= %.2f   WD= %.2f  ",wg*10,wd*10);
     outtextxy(1300,20,inf);
-    sprintf(inf,"Xr= %d ",Xr);
-    outtextxy(1300,40,inf);
-    sprintf(inf,"Yr= %d ",Yr);
-    outtextxy(1300,60,inf);
+//    sprintf(inf,"Xr= %d ",Xr);
+//    outtextxy(1300,40,inf);
+//    sprintf(inf,"Yr= %d ",Yr);
+//    outtextxy(1300,60,inf);
     sprintf(inf,"Score= %d ",score);
-    outtextxy(1300,80,inf);
+    outtextxy(1300,40,inf);
     
 //		----------------------Les commandes afin d'annimer le robot----------------------//
 //      =====================================2 roues===================================
@@ -127,6 +128,7 @@ void env::afficher(){
             if(GetAsyncKeyState(VK_SPACE)){
                 moveStop();
             }
+
 //      =====================================2 roues===================================            
 //          	if(GetAsyncKeyState(VK_LEFT) ){
 //            	wd=wd+0.025;
@@ -169,28 +171,23 @@ void env::afficher(){
             Dalpha=(Dg-Dd)/D;
             Dr = (Dg + Dd)/2;
             DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
-
-if (DistGoal<60){
-//    wg=0;
-//	delay(100);
-//    wd=0;
-//	delay(100);
-//	Crée des buts aléatoirement
-    Xb=((rand() % 90) + 50); //this code generates a random number between 0 and 89
-    Yb=((rand() % 600) + 50); //this code generates a random number between 0 and 599
-    score++;
-    
-}
-
+            
 //  mouvement du robot
     alpha=alpha+Dalpha;
     Xr=Xr+Dr*cos(alpha)*2000;
     Yr=Yr+Dr*sin(alpha)*2000;
     int ang=0;
-    ang=rotbut(Xb,Yb);
-    cout << ang;
     
-//  ----------------------mise à jour des position en fonction de xr et yr----------------------
+//  Atteindre le but 
+if (DistGoal<60){
+	moveStop();
+//    Crée des buts aléatoirement
+    Xb=((rand() % 90) + 50); //this code generates a random number between 0 and 89
+    Yb=((rand() % 600) + 50); //this code generates a random number between 0 and 599
+    score++;
+
+}
+    //  ----------------------mise à jour des position en fonction de xr et yr----------------------
     int *dx;
 //  tr tableau pour tracer le triangle
     tr[0]=Xr ;
@@ -205,6 +202,8 @@ if (DistGoal<60){
     dx=rotation(tr,8,Xr,Yr,alpha);
     for (int i=0;i<8;i++)
     tr[i]=*(dx+i);
+    
+
     
 //  Collisions
     for (int i=0;i<nbrObstacle;i++){
