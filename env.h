@@ -5,7 +5,7 @@
 class env{
 public:
 void afficher();
-    float Xr,Yr,Dx,Dy,Xobs[50],Yobs[50],Robs[50],alpha,Dr,Dg,Dd,Rc,Dalpha,wg,wd,R0,Dt,D,Xb,Yb,DistObstacle[50],DistGoal;
+    float Xr,Yr,Dx,Dy,Xobs[50],Yobs[50],Robs[50],alpha,Dr,Dg,Dd,Rc,Rb,Dalpha,wg,wd,R0,Dt,D,Xb,Yb,DistObstacle[50],DistGoal;
     int Rr,w0Max,Dw0Max, tr[8] = {Xr, Yr-Rr,Xr+Rr, Yr,Xr,Yr+Rr,Xr-Rr,Yr},n;
 int* rotation(int e[8], int n, int xd,int yd, float tet){
 int i = 0;
@@ -29,6 +29,34 @@ int i = 0;
     }
     return e;
 }
+    void moveForward(){
+                wg=wg+0.5;
+				delay(100);
+                wd=wd+0.5;
+				delay(100);   	
+    	
+	}
+	void moveBackward(){
+        wg=wg-0.05;
+		delay(100);
+        wd=wd-0.05;
+		delay(100);   	
+    	
+	}
+	void moveRight(){
+		wg=wg+0.25;
+		delay(200);
+	}
+	void moveLeft(){
+		wd=wd+0.25;
+		delay(200);
+	}
+	void moveStop(){
+		wg=0;
+		delay(100);
+        wd=0;
+		delay(100);
+	}
 env();
 
 };

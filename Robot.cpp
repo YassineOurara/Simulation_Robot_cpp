@@ -5,7 +5,7 @@
 using namespace std;
 char inf[1000];	
 int nbrObstacle=0;
-
+int score= 0;
 int main() 
 {
   	DWORD w=GetSystemMetrics(SM_CXSCREEN);
@@ -46,10 +46,12 @@ env::env(){
 //  position de robot
     Xr=60;
     Yr=60;
-//  position de but
+//  position et rayon de but
     Xb=400;
     Yb=300;
+    Rb=30;
     n=0;
+
 
 
 						//les Obstacles//
@@ -82,12 +84,13 @@ void env::afficher(){
 
 //  cercle du but
     setcolor(GREEN);
-    circle(Xb,Yb,Rr);
+    circle(Xb,Yb,Rb);
     
 //  cercle des obstacles 
-    setcolor(RED);
+
     for (int i=0;i<nbrObstacle+1;i++){
-        circle(Xobs[i],Yobs[i],Robs[i]);
+    		setcolor(YELLOW);
+    		circle(Xobs[i],Yobs[i],Robs[i]);
     }
     
 //  Affichage dans l'écran des coordonnées du robot et vitesse de ces deux roues
@@ -98,41 +101,30 @@ void env::afficher(){
     outtextxy(1300,40,inf);
     sprintf(inf,"Yr= %d ",Yr);
     outtextxy(1300,60,inf);
+    sprintf(inf,"Score= %d ",score);
+    outtextxy(1300,80,inf);
     
 //		----------------------Les commandes afin d'annimer le robot----------------------//
 //      =====================================2 roues===================================
 
        		if(GetAsyncKeyState(VK_LEFT) ){
-            	wd=wd+0.025;
-				delay(200);
+            	moveLeft();
             }
             if(GetAsyncKeyState(VK_DOWN && wd<w0Max/10 && wg<w0Max/10)){
-                wg=wg-0.05;
-				delay(100);
-                wd=wd-0.05;
-				delay(100);
+                moveBackward();
             }
             if(GetAsyncKeyState(VK_RIGHT)){
-              	wg=wg+0.025;
-			  	delay(200);
+              	moveRight();
             }
             if(GetAsyncKeyState(VK_UP) && wd<w0Max/10 && wg<w0Max/10 ){
-                wg=wg+0.05;
-				delay(100);
-                wd=wd+0.05;
-				delay(100);
+            	moveForward();
+
             }
             if(GetAsyncKeyState(VK_DOWN) && wd<w0Max/10 && wg<w0Max/10 ){
-                wg=wg-0.05;
-				delay(100);
-                wd=wd-0.05;
-				delay(100);
+                moveBackward();
             }
             if(GetAsyncKeyState(VK_SPACE)){
-                wg=0;
-				delay(100);
-                wd=0;
-				delay(100);
+                moveStop();
             }
 //      =====================================2 roues===================================            
 //          	if(GetAsyncKeyState(VK_LEFT) ){
@@ -183,8 +175,10 @@ if (DistGoal<60){
 //    wd=0;
 //	delay(100);
 //	Crée des buts aléatoirement
-    Xb=((rand() % 90) + 50);
-    Yb=((rand() % 600) + 50);
+    Xb=((rand() % 90) + 50); //this code generates a random number between 0 and 89
+    Yb=((rand() % 600) + 50); //this code generates a random number between 0 and 599
+    score++;
+    
 }
 
 //  mouvement du robot
@@ -213,25 +207,22 @@ if (DistGoal<60){
             // Distance  entre centre du robot et d'obstacle doit etre inferieur a la somme des rayons de robot et l'obstacle
             DistObstacle[i]=sqrt((Xr-Xobs[i])*(Xr-Xobs[i])+(Yr-Yobs[i])*(Yr-Yobs[i]));
             if(DistObstacle[i] <=Rr+Robs[i]){
-                wg=0;
-                wd=0;
-
+            	setcolor(RED);
+            	circle(Xobs[i],Yobs[i],Robs[i]);
+                moveStop();
             }
 	}
 	string const file1("position.pts");
-	ofstream monFlux(file1.c_str());
-
+	std::ofstream monFlux(file1.c_str());
 	n++;
 	for(int i=0;i<n;i++)
-	monFlux << "<< T :" << Dt << " s >> << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd << " rad/s "<< endl;
+	monFlux << "<< T :" << Dt << " s >> << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd << " rad/s <<<< Vitesse angulaire Roue Gauche : " << wg << " rad/s "<< endl;
 	delay(100);
 
 				
-
-
-	
-	
-
 return;
 
+
+
 }
+
