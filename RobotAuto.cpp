@@ -1,12 +1,13 @@
 #include <graphics.h>
 #include<math.h>
-#include"env.h"
+#include"dessin.h"
 #include <fstream>
 #include <iostream>
 using namespace std;
 char inf[1000];	
 int nbrObstacle=0;
 int score= 0;
+int nbrevit = 0;
 int main() 
 {
   	DWORD w=GetSystemMetrics(SM_CXSCREEN);
@@ -14,8 +15,7 @@ int main()
     h=1100;
     w=1500;
     initwindow(w,h,"ROBOT-AUTO");
-    env robot;
-    
+    figure robot;
     while(true){
     cleardevice();
     robot.afficher();
@@ -27,7 +27,7 @@ int main()
     return 0;
 }
 
-env::env(){
+figure::figure(){
 	        		//Initialisation des données//
 // rayon robot
     Rr=50;
@@ -71,7 +71,7 @@ env::env(){
 }
 
 
-void env::afficher(){
+void figure::afficher(){
 
 //  cercle du robot
     setcolor(WHITE);
@@ -94,14 +94,10 @@ void env::afficher(){
     
 //  Affichage dans l'écran des coordonnées du robot et vitesse de ces deux roues
 	setcolor(WHITE);
-    sprintf(inf,"WG= %.2f   WD= %.2f  ",wg,wd);
+    sprintf(inf,"Nombre d'obstacles= %d ",nbrevit);
     outtextxy(1300,20,inf);
-    sprintf(inf,"Xr= %d ",Xr);
-    outtextxy(1300,40,inf);
-    sprintf(inf,"Yr= %d ",Yr);
-    outtextxy(1300,60,inf);
     sprintf(inf,"Score= %d ",score);
-    outtextxy(1300,80,inf);
+    outtextxy(1300,40,inf);
     
 //      	mise a jour des données
             
@@ -130,7 +126,9 @@ if (DistGoal<60){
 //          Si le robot est pret de l'obstacle, ajuster les angles pour l'éviter
             ang = obsAngle + M_PI/2;
             break;
+            
         }
+        
     }
 	Xr += cos(ang) * 5;
     Yr += sin(ang) * 5;

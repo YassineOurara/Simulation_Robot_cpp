@@ -1,12 +1,12 @@
 #ifndef ENV_H
-#define ENV_H
+#define FIGURE_H
 #include <cmath>
-
-class env{
+class figure{
 public:
 void afficher();
     float Xr,Yr,Dx,Dy,Xobs[50],Yobs[50],Robs[50],alpha,ang,Dr,Dg,Dd,Rc,Rb,Dalpha,wg,wd,R0,Dt,D,Xb,Yb,DistObstacle[50],DistGoal;
     int Rr,w0Max,Dw0Max, tr[8] = {Xr, Yr-Rr,Xr+Rr, Yr,Xr,Yr+Rr,Xr-Rr,Yr},n;
+
 int* rotation(int e[8], int n, int xd,int yd, float tet){
 	int i = 0;
     while (i < n){

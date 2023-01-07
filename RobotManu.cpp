@@ -1,8 +1,11 @@
 #include <graphics.h>
 #include<math.h>
-#include"env.h"
+#include"dessin.h"
 #include <fstream>
 #include <iostream>
+#include <Windows.h>
+#include <string>
+
 using namespace std;
 char inf[1000];	
 int nbrObstacle=0;
@@ -14,19 +17,18 @@ int main()
     h=1100;
     w=1500;
     initwindow(w,h,"ROBOT-MANUEL");
-    env robot;
+    figure robot;
     while(true){
     cleardevice();
     robot.afficher();
     delay(30);
-    
     }
     getch();
     closegraph();
     return 0;
 }
 
-env::env(){
+figure::figure(){
 						//Initialisation des données//
 // rayon robot
     Rr=50;
@@ -52,6 +54,7 @@ env::env(){
     Yb=600;
     Rb=30;
     n=0;
+	std::string alarmSound = "C:\\Users\\smart asus\\OneDrive\\Documents\\GitHub\\Simulation_Robot_cpp\\sound.wav";
 
 
 
@@ -72,7 +75,7 @@ env::env(){
 }
 
   
-void env::afficher(){
+void figure::afficher(){
 
 //  cercle du robot
     setcolor(WHITE);
@@ -170,9 +173,10 @@ void env::afficher(){
             DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
 
 if (DistGoal<60){
+
 //	Crée des buts aléatoirement
-    Xb=((rand() % 90) + 50); //this code generates a random number between 0 and 89
-    Yb=((rand() % 600) + 50); //this code generates a random number between 0 and 599
+    Xb=((rand() % 90) + 50); //Un Xb aléatoire entre 0 et 89
+    Yb=((rand() % 600) + 50); //Un Yb aléatoire entre  0 et 599
     score++;  
 }
 
