@@ -74,7 +74,6 @@ figure::figure(){
 	
 }
 
-  
 void figure::afficher(){
 
 //  cercle du robot
@@ -221,4 +220,3 @@ if (DistGoal<60){
 return;
 
 }
-

@@ -7,7 +7,6 @@ using namespace std;
 char inf[1000];	
 int nbrObstacle=0;
 int score= 0;
-int nbrevit = 0;
 int main() 
 {
   	DWORD w=GetSystemMetrics(SM_CXSCREEN);
@@ -21,7 +20,6 @@ int main()
     robot.afficher();
     delay(30);
     }
-    
     getch();
     closegraph();
     return 0;
@@ -53,8 +51,7 @@ figure::figure(){
     Yb=600;
     Rb=30;
     ang=0;
-
-//  les Obstacles//
+//  les Obstacles
 	ifstream file ("obstaclesauto.obs");
 //  position des obstacles et rayons
     int x_obs;
@@ -69,7 +66,6 @@ figure::figure(){
 	}
 	
 }
-
 
 void figure::afficher(){
 
@@ -94,7 +90,7 @@ void figure::afficher(){
     
 //  Affichage dans l'écran des coordonnées du robot et vitesse de ces deux roues
 	setcolor(WHITE);
-    sprintf(inf,"Nombre d'obstacles= %d ",nbrevit);
+    sprintf(inf,"Nombre d'obstacles= %d ",nbrObstacle-1);
     outtextxy(1300,20,inf);
     sprintf(inf,"Score= %d ",score);
     outtextxy(1300,40,inf);
@@ -125,10 +121,8 @@ if (DistGoal<60){
         {
 //          Si le robot est pret de l'obstacle, ajuster les angles pour l'éviter
             ang = obsAngle + M_PI/2;
-            break;
-            
+            break;   
         }
-        
     }
 	Xr += cos(ang) * 5;
     Yr += sin(ang) * 5;

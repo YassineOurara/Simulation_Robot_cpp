@@ -29,10 +29,10 @@ int* rotation(int e[8], int n, int xd,int yd, float tet){
     return e;
 }
     void moveForward(){
-                wg=wg+0.25;
-				delay(100);
-                wd=wd+0.25;
-				delay(100);   	
+        wg=wg+0.25;
+		delay(100);
+        wd=wd+0.25;
+		delay(100);   	
     	
 	}
 	void moveBackward(){
@@ -56,7 +56,6 @@ int* rotation(int e[8], int n, int xd,int yd, float tet){
         wd=0;
 		delay(100);
 	}
-	
 	
 figure();
 
