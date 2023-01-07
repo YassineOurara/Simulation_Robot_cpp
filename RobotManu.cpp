@@ -13,7 +13,7 @@ int main()
     DWORD h=GetSystemMetrics(SM_CYSCREEN);
     h=1100;
     w=1500;
-    initwindow(w,h,"Mini_Projet Simulation cpp");
+    initwindow(w,h,"ROBOT-MANUEL");
     env robot;
     while(true){
     cleardevice();
@@ -48,15 +48,14 @@ env::env(){
     Xr=60;
     Yr=60;
 //  position et rayon de but
-    Xb=400;
-    Yb=300;
+    Xb=1300;
+    Yb=600;
     Rb=30;
     n=0;
 
 
 
-						//les Obstacles//
-						
+//  les Obstacles//
 	ifstream file ("obstacles.obs");
 //  position des obstacles et rayons
     int x_obs;
@@ -127,7 +126,7 @@ void env::afficher(){
             if(GetAsyncKeyState(VK_SPACE)){
                 moveStop();
             }
-//      =====================================2 roues===================================            
+//      =====================================1 roue===================================            
 //          	if(GetAsyncKeyState(VK_LEFT) ){
 //            	wd=wd+0.025;
 //				delay(200);
@@ -165,31 +164,23 @@ void env::afficher(){
             Dd=wd*Dt*R0;
             Dg=wg*Dt*R0;
             if(Dg!=Dd)
-            Rc=D*(Dg+Dd)/(2*(Dg-Dd)); //dr/dalpha
+            Rc=D*(Dg+Dd)/(2*(Dg-Dd));
             Dalpha=(Dg-Dd)/D;
             Dr = (Dg + Dd)/2;
             DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
 
 if (DistGoal<60){
-//    wg=0;
-//	delay(100);
-//    wd=0;
-//	delay(100);
 //	Crée des buts aléatoirement
     Xb=((rand() % 90) + 50); //this code generates a random number between 0 and 89
     Yb=((rand() % 600) + 50); //this code generates a random number between 0 and 599
-    score++;
-    
+    score++;  
 }
 
 //  mouvement du robot
     alpha=alpha+Dalpha;
     Xr=Xr+Dr*cos(alpha)*2000;
     Yr=Yr+Dr*sin(alpha)*2000;
-    int ang=0;
-    ang=rotbut(Xb,Yb);
-    cout << ang;
-    
+
 //  ----------------------mise à jour des position en fonction de xr et yr----------------------
     int *dx;
 //  tr tableau pour tracer le triangle
@@ -222,11 +213,8 @@ if (DistGoal<60){
 	for(int i=0;i<n;i++)
 	monFlux << "<< T :" << Dt << " s >> << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd << " rad/s <<<< Vitesse angulaire Roue Gauche : " << wg << " rad/s "<< endl;
 	delay(100);
-
-				
+		
 return;
-
-
 
 }
 

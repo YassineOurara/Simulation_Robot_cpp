@@ -1,5 +1,0 @@
-<< T :0 s >> << X : 300 px >> << Y : 500 px >> << Vitesse angulaire Roue Droite : 1 rad/s >> << Vitesse angulaire Roue Gauche : 1 rad/s >> << Distance : 0 m >>
-<< T :0.1 s >> << X : 303 px >> << Y : 494 px >> << Vitesse angulaire Roue Droite : 1 rad/s >> << Vitesse angulaire Roue Gauche : 1 rad/s >> << Distance : 0.00124 m >>
-<< T :0.2 s >> << X : 306 px >> << Y : 488 px >> << Vitesse angulaire Roue Droite : 1 rad/s >> << Vitesse angulaire Roue Gauche : 1 rad/s >> << Distance : 0.00248 m >>
-<< T :0.3 s >> << X : 309 px >> << Y : 482 px >> << Vitesse angulaire Roue Droite : 1 rad/s >> << Vitesse angulaire Roue Gauche : 1 rad/s >> << Distance : 0.00372 m >>
-<< T :0.4 s >> << X : 312 px >> << Y : 476 px >> << Vitesse angulaire Roue Droite : 1 rad/s >> << Vitesse angulaire Roue Gauche : 1 rad/s >> << Distance : 0.00496 m >>

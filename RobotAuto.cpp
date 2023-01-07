@@ -13,7 +13,7 @@ int main()
     DWORD h=GetSystemMetrics(SM_CYSCREEN);
     h=1100;
     w=1500;
-    initwindow(w,h,"Mini_Projet Simulation cpp");
+    initwindow(w,h,"ROBOT-AUTO");
     env robot;
     
     while(true){
@@ -49,15 +49,13 @@ env::env(){
     Xr=60;
     Yr=60;
 //  position et rayon de but
-    Xb=800;
-    Yb=200;
+    Xb=1400;
+    Yb=600;
     Rb=30;
-    n=0;
+    ang=0;
 
-
-	//les Obstacles//
-						
-	ifstream file ("obstacles.obs");
+//  les Obstacles//
+	ifstream file ("obstaclesauto.obs");
 //  position des obstacles et rayons
     int x_obs;
     int y_obs;
@@ -96,7 +94,7 @@ void env::afficher(){
     
 //  Affichage dans l'écran des coordonnées du robot et vitesse de ces deux roues
 	setcolor(WHITE);
-    sprintf(inf,"WG= %.2f   WD= %.2f  ",wg*10,wd*10);
+    sprintf(inf,"WG= %.2f   WD= %.2f  ",wg,wd);
     outtextxy(1300,20,inf);
     sprintf(inf,"Xr= %d ",Xr);
     outtextxy(1300,40,inf);
@@ -108,20 +106,14 @@ void env::afficher(){
 //      	mise a jour des données
             
 	Dd=wd*Dt*R0;
-            Dg=wg*Dt*R0;
-            if(Dg!=Dd)
-            	Rc=D*(Dg+Dd)/(2*(Dg-Dd)); //dr/dalpha
-            Dalpha=(Dg-Dd)/D;
-            Dr = (Dg + Dd)/2;
-            DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
-    float ang=0;
+    Dg=wg*Dt*R0;
+    if(Dg!=Dd)
+//    Rc=D*(Dg+Dd)/(2*(Dg-Dd)); //dr/dalpha
+    Dalpha=(Dg-Dd)/D;
+    Dr = (Dg + Dd)/2;
+    DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
             
 if (DistGoal<60){
-//    wg=0;
-//	delay(100);
-//    wd=0;
-//	delay(100);
-//	Crée des buts aléatoirement
 	moveStop();
 	delay(10);
     Xb=((rand() % 90) + 50); //this code generates a random number between 0 and 89
@@ -129,27 +121,29 @@ if (DistGoal<60){
     score++;
     
 }else{
-	double distance = sqrt((Xb - Xr) * (Xb - Xr) + (Yb - Yr) * (Yb - Yr));
-    
-    double ang = atan2(Yb - Yr, Xb - Xr);
+    float ang = atan2(Yb - Yr, Xb - Xr);
+    for (int i = 0; i <nbrObstacle; i++){
+        DistObstacle[i] = sqrt((Xobs[i] - Xr) * (Xobs[i] - Xr) + (Yobs[i] - Yr) * (Yobs[i] - Yr));
+        double obsAngle = atan2(Yobs[i] - Yr, Xobs[i] - Xr);
+        if (DistObstacle[i] < 160)
+        {
+//          Si le robot est pret de l'obstacle, ajuster les angles pour l'éviter
+            ang = obsAngle + M_PI/2;
+            break;
+        }
+    }
 	Xr += cos(ang) * 5;
     Yr += sin(ang) * 5;
-    // Calculate the desired angular velocities of the left and right wheels
-    double vg = distance * cos(ang);
-    double vd = distance * sin(ang);
-
-    // Calculate the angular velocities of the left and right wheels
-    wg = vg / 0.1;
-    wd = vd / 0.1;
-	
-	std::cout << "Gauche : " << wg << "Droit : " << wd  << std::endl;
+//  Calcule de la vitesse angulaire wg (resp. wd)
+    wg = DistGoal * cos(ang) / 0.1;
+    wd = DistGoal * sin(ang) / 0.1;
 	Dd=wd*Dt*R0;
     Dg=wg*Dt*R0;
     Dalpha=(Dg-Dd)/D;
     Dr = (Dg + Dd)/2;
 	//  ----------------------mise à jour des position en fonction de xr et yr----------------------
     int *dx;
-//  tr tableau pour tracer le triangle
+//  tr tableau des positions triangle
     tr[0]=Xr ;
     tr[1]=Yr-Rr;
     tr[2]=Xr+Rr ;
@@ -163,19 +157,6 @@ if (DistGoal<60){
     for (int i=0;i<8;i++)
     tr[i]=*(dx+i);
 }
-			
-
-    
-//  Collisions
-    for (int i=0;i<nbrObstacle;i++){
-            // Distance  entre centre du robot et d'obstacle doit etre inferieur a la somme des rayons de robot et l'obstacle
-            DistObstacle[i]=sqrt((Xr-Xobs[i])*(Xr-Xobs[i])+(Yr-Yobs[i])*(Yr-Yobs[i]));
-            if(DistObstacle[i] <=Rr+Robs[i]){
-            	setcolor(RED);
-            	circle(Xobs[i],Yobs[i],Robs[i]);
-                moveStop();
-            }
-	}
 			
 return;
 
