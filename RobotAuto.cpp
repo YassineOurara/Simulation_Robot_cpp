@@ -13,13 +13,15 @@ int main()
     DWORD h=GetSystemMetrics(SM_CYSCREEN);
     h=1100;
     w=1500;
-    initwindow(w,h,"Mini_Projet Simulation cpp_RobotAuto");
+    initwindow(w,h,"Mini_Projet Simulation cpp");
     env robot;
+    
     while(true){
     cleardevice();
     robot.afficher();
     delay(30);
     }
+    
     getch();
     closegraph();
     return 0;
@@ -41,23 +43,25 @@ env::env(){
     Dw0Max=2;
     alpha=1;
 //  Vitesse de la roue gauche(wg) resp. droite(wd)
-    wg=1;
-    wd=1;
+    wg=0;
+    wd=0;
 //  position de robot
     Xr=60;
     Yr=60;
 //  position et rayon de but
-    Xb=600;
-    Yb=400;
+    Xb=800;
+    Yb=200;
     Rb=30;
     n=0;
-//  les Obstacles//
-	ifstream file ("obstaclesauto.obs");
+
+
+	//les Obstacles//
+						
+	ifstream file ("obstacles.obs");
 //  position des obstacles et rayons
     int x_obs;
     int y_obs;
     int r_obs;
-
 //  les positions et le rayons d'obstacles dans le fichier obstacles.obs 
     while(file >> x_obs >> y_obs >> r_obs ){
         Xobs[nbrObstacle]=x_obs;
@@ -68,7 +72,7 @@ env::env(){
 	
 }
 
-  
+
 void env::afficher(){
 
 //  cercle du robot
@@ -84,103 +88,66 @@ void env::afficher(){
     circle(Xb,Yb,Rb);
     
 //  cercle des obstacles 
+
     for (int i=0;i<nbrObstacle+1;i++){
-    	setcolor(RED);
-    	circle(Xobs[i],Yobs[i],Robs[i]);    	
+    		setcolor(YELLOW);
+    		circle(Xobs[i],Yobs[i],Robs[i]);
     }
     
 //  Affichage dans l'écran des coordonnées du robot et vitesse de ces deux roues
 	setcolor(WHITE);
     sprintf(inf,"WG= %.2f   WD= %.2f  ",wg*10,wd*10);
     outtextxy(1300,20,inf);
-//    sprintf(inf,"Xr= %d ",Xr);
-//    outtextxy(1300,40,inf);
-//    sprintf(inf,"Yr= %d ",Yr);
-//    outtextxy(1300,60,inf);
-    sprintf(inf,"Score= %d ",score);
+    sprintf(inf,"Xr= %d ",Xr);
     outtextxy(1300,40,inf);
+    sprintf(inf,"Yr= %d ",Yr);
+    outtextxy(1300,60,inf);
+    sprintf(inf,"Score= %d ",score);
+    outtextxy(1300,80,inf);
     
-//		----------------------Les commandes afin d'annimer le robot----------------------//
-//      =====================================2 roues===================================
-
-       		if(GetAsyncKeyState(VK_LEFT) ){
-            	moveLeft();
-            }
-            if(GetAsyncKeyState(VK_DOWN && wd<w0Max/10 && wg<w0Max/10)){
-                moveBackward();
-            }
-            if(GetAsyncKeyState(VK_RIGHT)){
-              	moveRight();
-            }
-            if(GetAsyncKeyState(VK_UP) && wd<w0Max/10 && wg<w0Max/10 ){
-            	moveForward();
-
-            }
-            if(GetAsyncKeyState(VK_DOWN) && wd<w0Max/10 && wg<w0Max/10 ){
-                moveBackward();
-            }
-            if(GetAsyncKeyState(VK_SPACE)){
-                moveStop();
-            }
-
-//      =====================================2 roues===================================            
-//          	if(GetAsyncKeyState(VK_LEFT) ){
-//            	wd=wd+0.025;
-//				delay(200);
-//            }
-//            if(GetAsyncKeyState(VK_RIGHT)){
-//              	wg=wg+0.025;
-//			  	delay(200);
-//            }
-//            if(GetAsyncKeyState(VK_UP) && wd<w0Max/10 && wg<w0Max/10 ){
-//                wg=wg+0.05;
-//				delay(100);
-//
-//            }
-//            if(GetAsyncKeyState(0x5A) && wd<w0Max/10 && wg<w0Max/10 ){
-//                wd=wd+0.05;
-//				delay(100);
-//            }
-//            if(GetAsyncKeyState(VK_DOWN) && wd<w0Max/10 && wg<w0Max/10 ){
-//                wg=wg-0.05;
-//				delay(100);
-//            }
-//            if(GetAsyncKeyState(0x53) && wd<w0Max/10 && wg<w0Max/10 ){
-//                wd=wd-0.05;
-//				delay(100);
-//            }
-//            if(GetAsyncKeyState(VK_SPACE)){
-//                wg=0;
-//				delay(100);
-//                wd=0;
-//				delay(100);
-//            }
-//==============================================================================================
-
 //      	mise a jour des données
-            Dd=wd*Dt*R0;
+            
+	Dd=wd*Dt*R0;
             Dg=wg*Dt*R0;
             if(Dg!=Dd)
-            Rc=D*(Dg+Dd)/(2*(Dg-Dd)); //Rayon de corbure
+            	Rc=D*(Dg+Dd)/(2*(Dg-Dd)); //dr/dalpha
             Dalpha=(Dg-Dd)/D;
             Dr = (Dg + Dd)/2;
             DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
-//            std::cout << Rc;
-//  mouvement du robot
-    alpha=alpha+Dalpha;
-    Xr=Xr+Dr*cos(alpha)*2000;
-    Yr=Yr+Dr*sin(alpha)*2000;
-    int ang=0;
-
+    float ang=0;
+            
 if (DistGoal<60){
-	
-//    Crée des buts aléatoirement
+//    wg=0;
+//	delay(100);
+//    wd=0;
+//	delay(100);
+//	Crée des buts aléatoirement
+	moveStop();
+	delay(10);
     Xb=((rand() % 90) + 50); //this code generates a random number between 0 and 89
     Yb=((rand() % 600) + 50); //this code generates a random number between 0 and 599
     score++;
+    
+}else{
+	double distance = sqrt((Xb - Xr) * (Xb - Xr) + (Yb - Yr) * (Yb - Yr));
+    
+    double ang = atan2(Yb - Yr, Xb - Xr);
+	Xr += cos(ang) * 5;
+    Yr += sin(ang) * 5;
+    // Calculate the desired angular velocities of the left and right wheels
+    double vg = distance * cos(ang);
+    double vd = distance * sin(ang);
 
-}
-    //  ----------------------mise à jour des position en fonction de xr et yr----------------------
+    // Calculate the angular velocities of the left and right wheels
+    wg = vg / 0.1;
+    wd = vd / 0.1;
+	
+	std::cout << "Gauche : " << wg << "Droit : " << wd  << std::endl;
+	Dd=wd*Dt*R0;
+    Dg=wg*Dt*R0;
+    Dalpha=(Dg-Dd)/D;
+    Dr = (Dg + Dd)/2;
+	//  ----------------------mise à jour des position en fonction de xr et yr----------------------
     int *dx;
 //  tr tableau pour tracer le triangle
     tr[0]=Xr ;
@@ -192,30 +159,24 @@ if (DistGoal<60){
     tr[6]=Xr ;
     tr[7]=Yr-Rr;
 //	orienter le triangle 
-    dx=rotation(tr,8,Xr,Yr,alpha);
+    dx=rotation(tr,8,Xr,Yr,ang);
     for (int i=0;i<8;i++)
     tr[i]=*(dx+i);
+}
+			
+
     
 //  Collisions
     for (int i=0;i<nbrObstacle;i++){
             // Distance  entre centre du robot et d'obstacle doit etre inferieur a la somme des rayons de robot et l'obstacle
             DistObstacle[i]=sqrt((Xr-Xobs[i])*(Xr-Xobs[i])+(Yr-Yobs[i])*(Yr-Yobs[i]));
-            if(DistObstacle[i] < 90+25 + Robs[i]){
-            	std::cout << "L9itsu \n";
-                moveLeft();
-                delay(300);
-				
-            }else if (DistObstacle[i] <=Rr+ Robs[i]){
-            	moveStop();
-			}
+            if(DistObstacle[i] <=Rr+Robs[i]){
+            	setcolor(RED);
+            	circle(Xobs[i],Yobs[i],Robs[i]);
+                moveStop();
+            }
 	}
-	string const file1("position.pts");
-	std::ofstream monFlux(file1.c_str());
-	n++;
-	for(int i=0;i<n;i++)
-	monFlux << "<< T :" << Dt << " s >> << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd << " rad/s <<<< Vitesse angulaire Roue Gauche : " << wg << " rad/s "<< endl;
-	delay(100);
-				
+			
 return;
 
 
