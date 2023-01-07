@@ -28,7 +28,7 @@ int main()
 }
 
 env::env(){
-						//Initialisation des données//
+	        		//Initialisation des données//
 // rayon robot
     Rr=50;
 // rayon roue
@@ -182,4 +182,3 @@ return;
 
 
 }
-
