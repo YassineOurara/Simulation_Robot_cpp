@@ -29,9 +29,9 @@ int* rotation(int e[8], int n, int xd,int yd, float tet){
     return e;
 }
     void moveForward(){
-                wg=wg+5.5;
+                wg=wg+0.25;
 				delay(100);
-                wd=wd+5.5;
+                wd=wd+0.25;
 				delay(100);   	
     	
 	}
@@ -57,9 +57,6 @@ int* rotation(int e[8], int n, int xd,int yd, float tet){
 		delay(100);
 	}
 	
-	float rotbut(int Xbut,int Ybut){
-		return (atan(Xbut-Xr/Ybut-Yr)*180)/3.14;
-	}
 	
 env();
 

@@ -3,7 +3,6 @@
 #include"env.h"
 #include <fstream>
 #include <iostream>
-#include <cmath>
 using namespace std;
 char inf[1000];	
 int nbrObstacle=0;
@@ -16,12 +15,13 @@ int main()
     w=1500;
     initwindow(w,h,"Mini_Projet Simulation cpp");
     env robot;
+    
     while(true){
     cleardevice();
     robot.afficher();
     delay(30);
-    
     }
+    
     getch();
     closegraph();
     return 0;
@@ -49,8 +49,8 @@ env::env(){
     Xr=60;
     Yr=60;
 //  position et rayon de but
-    Xb=100;
-    Yb=300;
+    Xb=800;
+    Yb=200;
     Rb=30;
     n=0;
 
@@ -73,27 +73,7 @@ env::env(){
 	
 }
 
-double angle(double Xr, double Yr, double Xb, double Yb){
-    // Calculate the dot product of the vectors
-    double dot = Xr*Xb+Yr*Yb;
 
-    // Calculate the magnitudes of the vectors
-    double magu = sqrt(Xr*Xr+Yr*Yr);
-    double magv = sqrt(Xb*Xb+Yb*Yb);
-
-    // Calculate the cosine of the angle between the vectors using the dot product
-    double cosTheta = dot / (magu * magv);
-
-    // Calculate the angle using the arc cosine function
-    double theta = acos(cosTheta);
-
-    // Use the atan2 function to determine the sign of the angle
-    if (Xr * Yb - Yr * Xb < 0)
-        theta = -theta;
-
-    return theta;
-}
-  
 void env::afficher(){
 
 //  cercle du robot
@@ -126,124 +106,49 @@ void env::afficher(){
     sprintf(inf,"Score= %d ",score);
     outtextxy(1300,80,inf);
     
-//		----------------------Les commandes afin d'annimer le robot----------------------//
-//      =====================================2 roues===================================
-
-       		if(GetAsyncKeyState(VK_LEFT) ){
-            	moveLeft();
-            }
-            if(GetAsyncKeyState(VK_DOWN && wd<w0Max/10 && wg<w0Max/10)){
-                moveBackward();
-            }
-            if(GetAsyncKeyState(VK_RIGHT)){
-              	moveRight();
-            }
-            if(GetAsyncKeyState(VK_UP) && wd<w0Max/10 && wg<w0Max/10 ){
-            	moveForward();
-
-            }
-            if(GetAsyncKeyState(VK_DOWN) && wd<w0Max/10 && wg<w0Max/10 ){
-                moveBackward();
-            }
-            if(GetAsyncKeyState(VK_SPACE)){
-                moveStop();
-            }
-//      =====================================2 roues===================================            
-//          	if(GetAsyncKeyState(VK_LEFT) ){
-//            	wd=wd+0.025;
-//				delay(200);
-//            }
-//            if(GetAsyncKeyState(VK_RIGHT)){
-//              	wg=wg+0.025;
-//			  	delay(200);
-//            }
-//            if(GetAsyncKeyState(VK_UP) && wd<w0Max/10 && wg<w0Max/10 ){
-//                wg=wg+0.05;
-//				delay(100);
-//
-//            }
-//            if(GetAsyncKeyState(0x5A) && wd<w0Max/10 && wg<w0Max/10 ){
-//                wd=wd+0.05;
-//				delay(100);
-//            }
-//            if(GetAsyncKeyState(VK_DOWN) && wd<w0Max/10 && wg<w0Max/10 ){
-//                wg=wg-0.05;
-//				delay(100);
-//            }
-//            if(GetAsyncKeyState(0x53) && wd<w0Max/10 && wg<w0Max/10 ){
-//                wd=wd-0.05;
-//				delay(100);
-//            }
-//            if(GetAsyncKeyState(VK_SPACE)){
-//                wg=0;
-//				delay(100);
-//                wd=0;
-//				delay(100);
-//            }
-//==============================================================================================
-
 //      	mise a jour des données
-    Dd=wd*Dt*R0;
-    Dg=wg*Dt*R0;
-    if(Dg!=Dd)
-        Rc=D*(Dg+Dd)/(2*(Dg-Dd)); //dr/dalpha
-    Dalpha=(Dg-Dd)/D;
-    Dr = (Dg + Dd)/2;
-    DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
-//			  mouvement du robot
-    alpha=alpha+Dalpha;
-    Xr=Xr+Dr*cos(alpha)*2000;
-    Yr=Yr+Dr*sin(alpha)*2000;	
-	int ang=0;
-	static int cpt=0;
-	static int t[1];
-	double dot = 0;
-	double magu = 0;
-	double magv = 0;
-	double cosTheta = 0;
-	double theta = 0;
-	
+            
+	Dd=wd*Dt*R0;
+            Dg=wg*Dt*R0;
+            if(Dg!=Dd)
+            	Rc=D*(Dg+Dd)/(2*(Dg-Dd)); //dr/dalpha
+            Dalpha=(Dg-Dd)/D;
+            Dr = (Dg + Dd)/2;
+            DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
+    float ang=0;
+            
 if (DistGoal<60){
 //    wg=0;
 //	delay(100);
 //    wd=0;
 //	delay(100);
 //	Crée des buts aléatoirement
+	moveStop();
+	delay(10);
     Xb=((rand() % 90) + 50); //this code generates a random number between 0 and 89
     Yb=((rand() % 600) + 50); //this code generates a random number between 0 and 599
     score++;
-    moveStop();
-    dot = Xr * Xb + Yr * Yb;
-    magu = sqrt(Xr * Xr + Yr * Yr);
-    magv = sqrt(Xb * Xb + Yb * Yb);
-    cosTheta = dot / (magu * magv);
-    theta = acos(cosTheta);
-    if (Xr * Yb - Yr * Xb < 0)
-        theta = -theta;
-    std::cout << "CLOSE" << theta<< " "<< std::endl;
-    std::cout << "CLOSE" << Xr << " " << Yr << " "<< Xb << " " << Yb << " "<< std::endl;
     
-    cpt=0;
 }else{
-    moveStop();
-    dot = Xr * Xb + Yr * Yb;
-    magu = sqrt(Xr * Xr + Yr * Yr);
-    magv = sqrt(Xb * Xb + Yb * Yb);
-    cosTheta = dot / (magu * magv);
-    theta = acos(cosTheta);
-    if (Xr * Yb - Yr * Xb < 0)
-        theta = -theta;
-    //std::cout << theta<< " "<< std::endl;
-    std::cout << Xr << " " << Yr << " "<< Xb << " " << Yb << " "<< std::endl;
+	double distance = sqrt((Xb - Xr) * (Xb - Xr) + (Yb - Yr) * (Yb - Yr));
     
-    if(cpt==0){
-    	t[0]=theta;
-    	cpt++;
-    	std::cout << theta<< " "<< std::endl;
-	}
-    
-    Xr=Xr+Dr*cos(t[0])*2000;
-    Yr=Yr+Dr*sin(t[0])*2000;
+    double ang = atan2(Yb - Yr, Xb - Xr);
+	Xr += cos(ang) * 5;
+    Yr += sin(ang) * 5;
+    // Calculate the desired angular velocities of the left and right wheels
+    double vg = distance * cos(ang);
+    double vd = distance * sin(ang);
+
+    // Calculate the angular velocities of the left and right wheels
+    wg = vg / 0.1;
+    wd = vd / 0.1;
+	
+	std::cout << "Gauche : " << wg << "Droit : " << wd  << std::endl;
+	Dd=wd*Dt*R0;
+    Dg=wg*Dt*R0;
+    Dalpha=(Dg-Dd)/D;
+    Dr = (Dg + Dd)/2;
+	//  ----------------------mise à jour des position en fonction de xr et yr----------------------
     int *dx;
 //  tr tableau pour tracer le triangle
     tr[0]=Xr ;
@@ -254,13 +159,12 @@ if (DistGoal<60){
     tr[5]=Yr+Rr;
     tr[6]=Xr ;
     tr[7]=Yr-Rr;
-    
 //	orienter le triangle 
-    dx=rotation(tr,8,Xr,Yr,t[0]);
+    dx=rotation(tr,8,Xr,Yr,ang);
     for (int i=0;i<8;i++)
     tr[i]=*(dx+i);
-    moveForward();
-}    
+}
+			
 
     
 //  Collisions
@@ -273,18 +177,10 @@ if (DistGoal<60){
                 moveStop();
             }
 	}
-	string const file1("position.pts");
-	std::ofstream monFlux(file1.c_str());
-	n++;
-	for(int i=0;i<n;i++)
-	monFlux << "<< T :" << Dt << " s >> << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd << " rad/s <<<< Vitesse angulaire Roue Gauche : " << wg << " rad/s "<< endl;
-	delay(100);
-
-				
+			
 return;
 
 
 
 }
-
 
