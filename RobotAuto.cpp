@@ -55,8 +55,7 @@ env::env(){
     n=0;
 
 
-
-						//les Obstacles//
+	//les Obstacles//
 						
 	ifstream file ("obstacles.obs");
 //  position des obstacles et rayons
