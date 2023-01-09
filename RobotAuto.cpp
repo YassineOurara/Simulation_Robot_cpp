@@ -133,6 +133,14 @@ if (DistGoal<60){
     Dg=wg*Dt*R0;
     Dalpha=(Dg-Dd)/D;
     Dr = (Dg + Dd)/2;
+    static float instance = Dt;
+	instance += 0.1;
+	cout << instance<< " " ;
+	std::ofstream file("position.pts", std::ios::app);
+    // Write the values to the file
+    file << "<< T :" << instance << " s >> << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd/100 << " rad/s <<<< Vitesse angulaire Roue Gauche : " << wg/100 << " rad/s "<< endl;
+    // Close the file
+    file.close();
 	//  ----------------------mise à jour des position en fonction de xr et yr----------------------
     int *dx;
 //  tr tableau des positions triangle

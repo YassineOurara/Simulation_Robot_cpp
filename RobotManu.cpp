@@ -3,8 +3,7 @@
 #include"dessin.h"
 #include <fstream>
 #include <iostream>
-#include <Windows.h>
-#include <string>
+
 
 using namespace std;
 char inf[1000];	
@@ -54,10 +53,7 @@ figure::figure(){
     Yb=600;
     Rb=30;
     n=0;
-	std::string alarmSound = "C:\\Users\\smart asus\\OneDrive\\Documents\\GitHub\\Simulation_Robot_cpp\\sound.wav";
-
-
-
+    tet=0;
 //  les Obstacles//
 	ifstream file ("obstacles.obs");
 //  position des obstacles et rayons
@@ -97,14 +93,8 @@ void figure::afficher(){
     
 //  Affichage dans l'écran des coordonnées du robot et vitesse de ces deux roues
 	setcolor(WHITE);
-    sprintf(inf,"WG= %.2f   WD= %.2f  ",wg*10,wd*10);
-    outtextxy(1300,20,inf);
-    sprintf(inf,"Xr= %d ",Xr);
-    outtextxy(1300,40,inf);
-    sprintf(inf,"Yr= %d ",Yr);
-    outtextxy(1300,60,inf);
     sprintf(inf,"Score= %d ",score);
-    outtextxy(1300,80,inf);
+    outtextxy(1300,20,inf);
     
 //		----------------------Les commandes afin d'annimer le robot----------------------//
 //      =====================================2 roues===================================
@@ -183,6 +173,14 @@ if (DistGoal<60){
     alpha=alpha+Dalpha;
     Xr=Xr+Dr*cos(alpha)*2000;
     Yr=Yr+Dr*sin(alpha)*2000;
+    static float instance = Dt;
+	instance += 0.1;
+	cout << instance<< " " ;
+	std::ofstream file("position.pts", std::ios::app);
+    // Write the values to the file
+    file << "<< T :" << instance << " s >> << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd/100 << " rad/s <<<< Vitesse angulaire Roue Gauche : " << wg/100 << " rad/s "<< endl;
+    // Close the file
+    file.close();
 
 //  ----------------------mise à jour des position en fonction de xr et yr----------------------
     int *dx;
@@ -199,7 +197,8 @@ if (DistGoal<60){
     dx=rotation(tr,8,Xr,Yr,alpha);
     for (int i=0;i<8;i++)
     tr[i]=*(dx+i);
-    
+    ofstream outfile;
+
 //  Collisions
     for (int i=0;i<nbrObstacle;i++){
             // Distance  entre centre du robot et d'obstacle doit etre inferieur a la somme des rayons de robot et l'obstacle
@@ -210,12 +209,24 @@ if (DistGoal<60){
                 moveStop();
             }
 	}
-	string const file1("position.pts");
-	std::ofstream monFlux(file1.c_str());
-	n++;
-	for(int i=0;i<n;i++)
-	monFlux << "<< T :" << Dt << " s >> << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd << " rad/s <<<< Vitesse angulaire Roue Gauche : " << wg << " rad/s "<< endl;
-	delay(100);
+		tet= tet+0.1;
+		if(Xr >= 1500){
+			Xr=0;
+		}
+		else if(Xr<=0){
+			Xr=1500;
+		}
+		
+		if(Yr >= 1100){
+			Yr=0;
+		}
+		else if(Yr<=0){
+			Yr=1100;
+		}
+				
+		if(alpha == 360){
+			alpha = 0;
+		}
 		
 return;
 
