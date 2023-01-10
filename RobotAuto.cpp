@@ -52,7 +52,7 @@ figure::figure(){
     Rb=30;
     ang=0;
 //  les Obstacles
-	ifstream file ("obstaclesauto.obs");
+	ifstream file ("obstacles.obs");
 //  position des obstacles et rayons
     int x_obs;
     int y_obs;
