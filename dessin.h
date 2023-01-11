@@ -1,12 +1,12 @@
-#ifndef ENV_H
-#define ENV_H
+#ifndef DESSIN_H
+#define FIGURE_H
 #include <cmath>
-
-class env{
+class figure{
 public:
 void afficher();
-    float Xr,Yr,Dx,Dy,Xobs[50],Yobs[50],Robs[50],alpha,Dr,Dg,Dd,Rc,Rb,Dalpha,wg,wd,R0,Dt,D,Xb,Yb,DistObstacle[50],DistGoal;
-    int Rr,w0Max,Dw0Max, tr[8] = {Xr, Yr-Rr,Xr+Rr, Yr,Xr,Yr+Rr,Xr-Rr,Yr},n;
+    float Xr,Yr,Dx,Dy,Xobs[50],Yobs[50],Robs[50],alpha,ang,Dr,Dg,Dd,Rc,Rb,Dalpha,wg,wd,R0,Dt,D,Xb,Yb,DistObstacle[50],DistGoal;
+    int Rr,w0Max,Dw0Max, tr[8] = {Xr, Yr-Rr,Xr+Rr, Yr,Xr,Yr+Rr,Xr-Rr,Yr},tet,n;
+
 int* rotation(int e[8], int n, int xd,int yd, float tet){
 	int i = 0;
     while (i < n){
@@ -29,10 +29,10 @@ int* rotation(int e[8], int n, int xd,int yd, float tet){
     return e;
 }
     void moveForward(){
-                wg=wg+0.25;
-				delay(100);
-                wd=wd+0.25;
-				delay(100);   	
+        wg=wg+0.25;
+		delay(100);
+        wd=wd+0.25;
+		delay(100);   	
     	
 	}
 	void moveBackward(){
@@ -57,8 +57,7 @@ int* rotation(int e[8], int n, int xd,int yd, float tet){
 		delay(100);
 	}
 	
-	
-env();
+figure();
 
 };
 
