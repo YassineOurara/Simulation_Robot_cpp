@@ -160,40 +160,19 @@ void figure::afficher(){
             Dalpha=(Dg-Dd)/D;
             Dr = (Dg + Dd)/2;
             DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
-            
 
-if (DistGoal<60){
+if (DistGoal<80){
 
 //	Crée des buts aléatoirement
-<<<<<<< HEAD
-    Xb=((rand() % 90) + 50); //this code generates a random number between 0 and 89
-    Yb=((rand() % 600) + 50); //this code generates a random number between 0 and 599
-    score++;
-    
-}else{
-	static float instance = Dt;
-	instance += 0.1;
-	cout << instance<< " " ;
-	std::ofstream file("positions.pts", std::ios::app);
-    // Write the values to the file
-    file << "<< T :" << instance << " s >> << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd << " rad/s <<<< Vitesse angulaire Roue Gauche : " << wg << " rad/s "<< endl;
-    // Close the file
-    file.close();
-=======
     Xb=((rand() % 90) + 50); //Un Xb aléatoire entre 0 et 89
     Yb=((rand() % 600) + 50); //Un Yb aléatoire entre  0 et 599
     score++;  
->>>>>>> d8c77f9225fb4f712d8f0d4a6718f362a466c3e3
 }
 
 //  mouvement du robot
     alpha=alpha+Dalpha;
-    
     Xr=Xr+Dr*cos(alpha)*2000;
     Yr=Yr+Dr*sin(alpha)*2000;
-<<<<<<< HEAD
-    
-=======
     static float instance = Dt;
 	instance += 0.1;
 	cout << instance<< " " ;
@@ -203,7 +182,6 @@ if (DistGoal<60){
     // Close the file
     file.close();
 
->>>>>>> d8c77f9225fb4f712d8f0d4a6718f362a466c3e3
 //  ----------------------mise à jour des position en fonction de xr et yr----------------------
     int *dx;
 //  tr tableau pour tracer le triangle

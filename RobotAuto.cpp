@@ -25,11 +25,7 @@ int main()
     return 0;
 }
 
-<<<<<<< HEAD
-env::env(){
-=======
 figure::figure(){
->>>>>>> d8c77f9225fb4f712d8f0d4a6718f362a466c3e3
 	        		//Initialisation des données//
 // rayon robot
     Rr=50;
@@ -94,11 +90,7 @@ void figure::afficher(){
     
 //  Affichage dans l'écran des coordonnées du robot et vitesse de ces deux roues
 	setcolor(WHITE);
-<<<<<<< HEAD
-    sprintf(inf,"WG= %.2f   WD= %.2f  ",wg/100,wd/100);
-=======
     sprintf(inf,"Nombre d'obstacles= %d ",nbrObstacle-1);
->>>>>>> d8c77f9225fb4f712d8f0d4a6718f362a466c3e3
     outtextxy(1300,20,inf);
     sprintf(inf,"Score= %d ",score);
     outtextxy(1300,40,inf);
@@ -113,15 +105,7 @@ void figure::afficher(){
     Dr = (Dg + Dd)/2;
     DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
             
-if (DistGoal<60){
-<<<<<<< HEAD
-	//    wg=0;
-	//	delay(100);
-	//    wd=0;
-	//	delay(100);
-	//	Crée des buts aléatoirement
-=======
->>>>>>> d8c77f9225fb4f712d8f0d4a6718f362a466c3e3
+if (DistGoal<80){
 	moveStop();
 	delay(10);
     Xb=((rand() % 90) + 50); //this code generates a random number between 0 and 89
@@ -129,55 +113,6 @@ if (DistGoal<60){
     score++;
     
 }else{
-<<<<<<< HEAD
-	double distance = sqrt((Xb - Xr) * (Xb - Xr) + (Yb - Yr) * (Yb - Yr));
-    double ang = atan2(Yb - Yr, Xb - Xr);
-
-    
-    for (int i = 0; i < 4; i++)
-    {
-        // Calculate the distance and angle between the robot and obstacle
-        double obsDistance = sqrt((Xobs[i] - Xr) * (Xobs[i] - Xr) + (Yobs[i] - Yr) * (Yobs[i] - Yr));
-        double obsAngle = atan2(Yobs[i] - Yr, Xobs[i] - Xr);
-
-        // Check if the robot is within a certain distance of the obstacle
-        if (obsDistance < 160)
-        {
-        	 double crossProduct = (Xb - Xr) * (Yobs[i] - Yr) - (Yb - Yr) * (Xobs[i] - Xr);
-            // If the robot is close to the obstacle, adjust the angle to avoid the obstacle
-            // Check if the angle between the robot and the obstacle is closer to the angle between the robot and the goal
-			if (crossProduct > 0)
-		    {
-		        ang = obsAngle - M_PI/2;
-		    }
-		    // If the cross product is negative, the angle between the vectors is obtuse, and the longest detour should be taken
-		    else
-		    {
-		        ang = obsAngle + M_PI/2;
-		    }
-		
-		    break; // Stop checking other obstacles
-        }
-    }
-    
-	wg = distance * cos(ang) / 0.1;
-	wd = distance * sin(ang) / 0.1;
-
-	// Update the position of the robot based on the calculated angle
-	Xr += wg/distance * 0.5;
-	Yr += wd/distance * 0.5;
-    std::cout << "Wg : " << " " << wg << " " << "Wd : " << " " << wd  << std::endl;
-	
-	
-
-	static float instance = Dt;
-	instance += 0.1;
-	std::ofstream file("positionsAuto.pts", std::ios::app);
-    // Write the values to the file
-    file << "<< T :" << instance << " s >> << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd/100 << " rad/s <<<< Vitesse angulaire Roue Gauche : " << wg/100 << " rad/s "<< endl;
-    // Close the file
-    file.close();
-=======
     float ang = atan2(Yb - Yr, Xb - Xr);
     for (int i = 0; i <nbrObstacle; i++){
         DistObstacle[i] = sqrt((Xobs[i] - Xr) * (Xobs[i] - Xr) + (Yobs[i] - Yr) * (Yobs[i] - Yr));
@@ -206,7 +141,6 @@ if (DistGoal<60){
 	Xr += wg/DistGoal*0.5;
     Yr += wd/DistGoal*0.5;
 
->>>>>>> d8c77f9225fb4f712d8f0d4a6718f362a466c3e3
     
 	Dd=wd*Dt*R0;
     Dg=wg*Dt*R0;
@@ -214,7 +148,7 @@ if (DistGoal<60){
     Dr = (Dg + Dd)/2;
     static float instance = Dt;
 	instance += 0.1;
-	cout << instance<< " " ;
+	//cout << instance<< " " ;
 	std::ofstream file("position.pts", std::ios::app);
     // Write the values to the file
     file << "<< T :" << instance << " s >> << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd/100 << " rad/s <<<< Vitesse angulaire Roue Gauche : " << wg/100 << " rad/s "<< endl;
