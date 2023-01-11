@@ -41,8 +41,8 @@ figure::figure(){
     Dw0Max=2;
     alpha=1;
 //  Vitesse de la roue gauche(wg) resp. droite(wd)
-    wg=0;
-    wd=0;
+    wg=1;
+    wd=1;
 //  position de robot
     Xr=60;
     Yr=60;
@@ -119,16 +119,29 @@ if (DistGoal<60){
         double obsAngle = atan2(Yobs[i] - Yr, Xobs[i] - Xr);
         if (DistObstacle[i] < 160)
         {
-//          Si le robot est pret de l'obstacle, ajuster les angles pour l'éviter
-            ang = obsAngle + M_PI/2;
-            break;   
+            double produitvect = (Xb - Xr) * (Yobs[i] - Yr) - (Yb - Yr) * (Xobs[i] - Xr);
+            // If the robot is close to the obstacle, adjust the angle to avoid the obstacle
+            // Check if the angle between the robot and the obstacle is closer to the angle between the robot and the goal
+            if (produitvect > 0)
+            {
+                ang = obsAngle - M_PI/2;
+            }
+            // If the cross product is negative, the angle between the vectors is obtuse, and the longest detour should be taken
+            else
+            {
+                ang = obsAngle + M_PI/2;
+            }
+
+            break;
         }
     }
-	Xr += cos(ang) * 5;
-    Yr += sin(ang) * 5;
-//  Calcule de la vitesse angulaire wg (resp. wd)
+    //  Calcule de la vitesse angulaire wg (resp. wd)
     wg = DistGoal * cos(ang) / 0.1;
     wd = DistGoal * sin(ang) / 0.1;
+	Xr += wg/DistGoal*0.5;
+    Yr += wd/DistGoal*0.5;
+
+    
 	Dd=wd*Dt*R0;
     Dg=wg*Dt*R0;
     Dalpha=(Dg-Dd)/D;
