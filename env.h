@@ -36,9 +36,9 @@ int* rotation(int e[8], int n, int xd,int yd, float tet){
     	
 	}
 	void moveBackward(){
-        wg=wg-0.05;
+        wg=wg-0.25;
 		delay(100);
-        wd=wd-0.05;
+        wd=wd-0.25;
 		delay(100);   	
     	
 	}

@@ -169,6 +169,7 @@ void env::afficher(){
             Dalpha=(Dg-Dd)/D;
             Dr = (Dg + Dd)/2;
             DistGoal=sqrt((Xr-Xb)*(Xr-Xb)+(Yr-Yb)*(Yr-Yb));
+            
 
 if (DistGoal<60){
 //    wg=0;
@@ -180,15 +181,22 @@ if (DistGoal<60){
     Yb=((rand() % 600) + 50); //this code generates a random number between 0 and 599
     score++;
     
+}else{
+	static float instance = Dt;
+	instance += 0.1;
+	cout << instance<< " " ;
+	std::ofstream file("positions.pts", std::ios::app);
+    // Write the values to the file
+    file << "<< T :" << instance << " s >> << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd << " rad/s <<<< Vitesse angulaire Roue Gauche : " << wg << " rad/s "<< endl;
+    // Close the file
+    file.close();
 }
 
 //  mouvement du robot
     alpha=alpha+Dalpha;
+    
     Xr=Xr+Dr*cos(alpha)*2000;
     Yr=Yr+Dr*sin(alpha)*2000;
-    int ang=0;
-    ang=rotbut(Xb,Yb);
-    cout << ang;
     
 //  ----------------------mise à jour des position en fonction de xr et yr----------------------
     int *dx;
