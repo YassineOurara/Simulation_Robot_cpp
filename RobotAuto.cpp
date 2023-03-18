@@ -114,21 +114,26 @@ if (DistGoal<80){
     
 }else{
     float ang = atan2(Yb - Yr, Xb - Xr);
+    
     for (int i = 0; i <nbrObstacle; i++){
         DistObstacle[i] = sqrt((Xobs[i] - Xr) * (Xobs[i] - Xr) + (Yobs[i] - Yr) * (Yobs[i] - Yr));
         double obsAngle = atan2(Yobs[i] - Yr, Xobs[i] - Xr);
+        
         if (DistObstacle[i] < 160)
         {
+        	
             double produitvect = (Xb - Xr) * (Yobs[i] - Yr) - (Yb - Yr) * (Xobs[i] - Xr);
-            // If the robot is close to the obstacle, adjust the angle to avoid the obstacle
-            // Check if the angle between the robot and the obstacle is closer to the angle between the robot and the goal
+            // Si le robot est proche de l'obstacle, ajustez l'angle pour éviter l'obstacle.
+            // Vérifiez si l'angle entre le robot et l'obstacle est plus proche de l'angle entre le robot et le but.
             if (produitvect > 0)
             {
+            	// tourner à gauche d'angle Pi/2
                 ang = obsAngle - M_PI/2;
             }
-            // If the cross product is negative, the angle between the vectors is obtuse, and the longest detour should be taken
+            // Si le produit en croix est négatif, l'angle entre les vecteurs est obtus, et il faut prendre le plus long détour.
             else
             {
+            	// tourner à droite d'angle Pi/2
                 ang = obsAngle + M_PI/2;
             }
 
@@ -144,6 +149,7 @@ if (DistGoal<80){
     
 	Dd=wd*Dt*R0;
     Dg=wg*Dt*R0;
+    
     Dalpha=(Dg-Dd)/D;
     Dr = (Dg + Dd)/2;
     static float instance = Dt;

@@ -99,57 +99,61 @@ void figure::afficher(){
 //		----------------------Les commandes afin d'annimer le robot----------------------//
 //      =====================================2 roues===================================
 
-       		if(GetAsyncKeyState(VK_LEFT) ){
-            	moveLeft();
-            }
-            if(GetAsyncKeyState(VK_DOWN && wd<w0Max/10 && wg<w0Max/10)){
-                moveBackward();
-            }
-            if(GetAsyncKeyState(VK_RIGHT)){
-              	moveRight();
-            }
-            if(GetAsyncKeyState(VK_UP) && wd<w0Max/10 && wg<w0Max/10 ){
-            	moveForward();
-
-            }
-            if(GetAsyncKeyState(VK_DOWN) && wd<w0Max/10 && wg<w0Max/10 ){
-                moveBackward();
-            }
-            if(GetAsyncKeyState(VK_SPACE)){
-                moveStop();
-            }
-//      =====================================1 roue===================================            
-//          	if(GetAsyncKeyState(VK_LEFT) ){
-//            	wd=wd+0.025;
-//				delay(200);
+//       		if(GetAsyncKeyState(VK_LEFT) ){
+//            	moveLeft();
+//            }
+//            if(GetAsyncKeyState(VK_DOWN && wd<w0Max/10 && wg<w0Max/10)){
+//                moveBackward();
 //            }
 //            if(GetAsyncKeyState(VK_RIGHT)){
-//              	wg=wg+0.025;
-//			  	delay(200);
+//              	moveRight();
 //            }
 //            if(GetAsyncKeyState(VK_UP) && wd<w0Max/10 && wg<w0Max/10 ){
-//                wg=wg+0.05;
-//				delay(100);
+//            	moveForward();
 //
 //            }
-//            if(GetAsyncKeyState(0x5A) && wd<w0Max/10 && wg<w0Max/10 ){
-//                wd=wd+0.05;
-//				delay(100);
-//            }
 //            if(GetAsyncKeyState(VK_DOWN) && wd<w0Max/10 && wg<w0Max/10 ){
-//                wg=wg-0.05;
-//				delay(100);
-//            }
-//            if(GetAsyncKeyState(0x53) && wd<w0Max/10 && wg<w0Max/10 ){
-//                wd=wd-0.05;
-//				delay(100);
+//                moveBackward();
 //            }
 //            if(GetAsyncKeyState(VK_SPACE)){
-//                wg=0;
-//				delay(100);
-//                wd=0;
-//				delay(100);
+//                moveStop();
+//            }if(GetAsyncKeyState(0x52)){ 		//	R key = 0x52
+//                moveStop();
+//                Xr=60;
+//    			Yr=60;
 //            }
+//      =====================================1 roue===================================            
+          	if(GetAsyncKeyState(VK_LEFT) ){
+            	wd=wd+0.025;
+				delay(200);
+            }
+            if(GetAsyncKeyState(VK_RIGHT)){
+              	wg=wg+0.025;
+			  	delay(200);
+            }
+            if(GetAsyncKeyState(VK_UP) && wd<w0Max/10 && wg<w0Max/10 ){
+                wg=wg+0.05;
+				delay(100);
+
+            }
+            if(GetAsyncKeyState(0x5A) && wd<w0Max/10 && wg<w0Max/10 ){
+                wd=wd+0.05;
+				delay(100);
+            }
+            if(GetAsyncKeyState(VK_DOWN) && wd<w0Max/10 && wg<w0Max/10 ){
+                wg=wg-0.05;
+				delay(100);
+            }
+            if(GetAsyncKeyState(0x53) && wd<w0Max/10 && wg<w0Max/10 ){
+                wd=wd-0.05;
+				delay(100);
+            }
+            if(GetAsyncKeyState(VK_SPACE)){
+                wg=0;
+				delay(100);
+                wd=0;
+				delay(100);
+            }
 //==============================================================================================
 
 //      	mise a jour des données
@@ -175,7 +179,7 @@ if (DistGoal<80){
     Yr=Yr+Dr*sin(alpha)*2000;
     static float instance = Dt;
 	instance += 0.1;
-	cout << instance<< " " ;
+	//cout << instance<< " " ;
 	std::ofstream file("position.pts", std::ios::app);
     // Write the values to the file
     file << "<< T :" << instance << " s >> << X : " << Xr << " px >> << Y : " << Yr << " px >> << Vitesse angulaire Roue Droite : " << wd/100 << " rad/s <<<< Vitesse angulaire Roue Gauche : " << wg/100 << " rad/s "<< endl;

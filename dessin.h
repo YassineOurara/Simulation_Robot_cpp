@@ -29,9 +29,9 @@ int* rotation(int e[8], int n, int xd,int yd, float tet){
     return e;
 }
     void moveForward(){
-        wg=wg+0.25;
+        wg=wg+0.05;
 		delay(100);
-        wd=wd+0.25;
+        wd=wd+0.05;
 		delay(100);   	
     	
 	}
@@ -43,11 +43,11 @@ int* rotation(int e[8], int n, int xd,int yd, float tet){
     	
 	}
 	void moveRight(){
-		wg=wg+0.25;
+		wg=wg+0.05;
 		delay(200);
 	}
 	void moveLeft(){
-		wd=wd+0.25;
+		wd=wd+0.05;
 		delay(200);
 	}
 	void moveStop(){
